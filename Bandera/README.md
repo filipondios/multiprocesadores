@@ -15,12 +15,12 @@ Ver la información del micro en Internet. Otra información se puede ver con lo
 A la BIOS se accede justo después de arrancar pulsando ESC, F1 o F2.
 
 ## Arquitectura: 
-  * Microprocesador: AMD A6-9225 RADEON R4
-  * Número de núcleos: 2
-  * Cantidad de subprocesos por nucleo: 1
+  * Microprocesador: AMD Ryzen 7 5800X 8-Core Processor
+  * Número de núcleos: 8
+  * Cantidad de subprocesos por nucleo: 2
   * Tiene hyperthreading (SMT) activado en BIOS: No
   * HDD/SDD: 931Gb
-  * RAM: 6826Mb
+  * RAM: 15Gb
   * Se usa máquina virtual: No
 
 ## Instrucciones:
