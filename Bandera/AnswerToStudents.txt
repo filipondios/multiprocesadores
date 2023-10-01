@@ -16,10 +16,12 @@ Generas una violación de segmento para los parámetros -r 400 -c 600
 
 Usa gdb para ver en qué línea tienes el error.
 
-Pista: si coges memoria de [00..400][0..599] y accedes con [i][j], i y j no pueden tomar valores fuera de su intervalo correspondiente.
+Pista: si coges memoria de [00..400][0..599] y accedes con [i][j], i y j no pueden tomar valores 
+fuera de su intervalo correspondiente.
 La primera componente es simpre las filas.
 
 %----------------------------------------------
-Como has cogido memoria por filas, al recorrer por columas vas a tener mas fallos de cache si la imagen no te cabe en la L1. 
+Como has cogido memoria por filas, al recorrer por columas vas a tener mas fallos de cache
+si la imagen no te cabe en la L1. 
 
 %----------------------------------------------

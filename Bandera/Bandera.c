@@ -4,15 +4,17 @@
 #include "getmem.h"
 #include "argshand.h"
 #include "utils.h"
-#define PRINT 0
+
+/* Show info? */
+#define INFO 0
 
 void ParametersError() {
- puts("Options are:");
- puts("\t[ -h To show this help ]");
- puts("\t  -r <n rows>			");
- puts("\t  -c <n columns>		");
- puts("\t  -o <file> [Image]>	");
- exit(0);
+    puts("Options are:");
+    puts("\t[ -h To show this help ]");
+    puts("\t  -r <n rows>			");
+    puts("\t  -c <n columns>		");
+    puts("\t  -o <file> [Image]>	");
+    exit(0);
 }
 
 int main(int argc, char **argv) {
@@ -21,8 +23,7 @@ int main(int argc, char **argv) {
     char *FileName;
     FILE * FOut;
     char Command[256];
-    bool GenImage=false;
-
+    bool GenImage = false;
  
     if (ExistArg("-h",argc,argv))
         ParametersError();  
@@ -32,7 +33,7 @@ int main(int argc, char **argv) {
         ParametersError();
     }
     else {
-        Rows = atoi(GetArg("-r",argc,argv));
+        Rows = atoi(GetArg("-r", argc, argv));
 
         if (Rows <=3) {
          puts("Rows<=3");
@@ -52,53 +53,72 @@ int main(int argc, char **argv) {
          exit(1);
         }
     }  
-
     if (ExistArg("-o",argc,argv)) {
         GenImage=true;
         FileName = GetArg("-o",argc,argv);
     } 
 
- #if (PRINT==1)
+ #if (INFO==1)
  printf("Rows=%d, Cols=%d, Output=%s.\n", Rows, Cols, FileName);
  #endif
 
     /*Calloc de Getmen put data to zeroes*/
-    ppRed   = (char **) GetMem2D (Rows,Cols,sizeof(char),"Main:ppRed");
-    ppGreen = (char **) GetMem2D (Rows,Cols,sizeof(char),"Main:ppGreen");
-    ppBlue  = (char **) GetMem2D (Rows,Cols,sizeof(char),"Main:ppBlue");
+    ppRed   = (char**) GetMem2D (Rows, Cols,sizeof(char), "Main:ppRed");
+    ppGreen = (char**) GetMem2D (Rows, Cols,sizeof(char), "Main:ppGreen");
+    ppBlue  = (char**) GetMem2D (Rows, Cols,sizeof(char), "Main:ppBlue");
 
- #if (PRINT==1)
+ #if (INFO==1)
  printf("Rows/4=%d, Rows*3/4=%d\n", Rows/4, Rows*3/4);
  #endif
 
+    int mid = Rows>>2;
+    int send = Rows*3/4;
+        
+    for(int i=0; i<Cols; i++){
+        for (int j=0; j<mid; j++)
+            ppRed[j][i] = (char)225;
+
+        for (int j=mid; j<send; j++){
+            ppRed[j][i] = (char)225;
+            ppGreen[j][i] =(char)255;
+        }
+
+        for (int j=send; j<Rows; j++)
+            ppRed[j][i] = (char)225;
+    }
+
     /*Red*/
+    /*
     for (int i=0; i<Rows/4; i++)
         for (int j=0; j<Cols; j++)
             ppRed[i][j]=(char)255;
+    */
 
     /*Yellow*/
+    /*
     for (int i=Rows/4; i<Rows*3/4; i++){
         for (int j=0; j<Cols; j++) {
             ppRed  [i][j]=(char)255;
             ppGreen[i][j]=(char)255;
         }
     }
-
+    */
     /*Red*/
+    /*
     for (int i=Rows*3/4; i<Rows; i++)
         for (int j=0; j<Cols; j++)
-            ppRed[i][j]=(char)255;
-
+          ppRed[i][j]=(char)255;
+    */
 
     if (GenImage) {
         //Print to file
-	    FOut=OpenFile(FileName,"wb");    
+	    FOut = OpenFile(FileName,"wb");    
 
         for (int i=0;i<Rows;i++) {
 	        for (int j=0;j<Cols;j++) {
-		        fwrite(&ppRed  [i][j],sizeof(char),(size_t)1,FOut);
-			    fwrite(&ppGreen[i][j],sizeof(char),(size_t)1,FOut);
-			    fwrite(&ppBlue [i][j],sizeof(char),(size_t)1,FOut);
+		        fwrite(&ppRed  [i][j], sizeof(char), 1, FOut);
+			    fwrite(&ppGreen[i][j], sizeof(char), 1, FOut);
+			    fwrite(&ppBlue [i][j], sizeof(char), 1, FOut);
 		    }
         }
     
@@ -111,10 +131,8 @@ int main(int argc, char **argv) {
     }
 
     //Free allocated memory
-    Free2D((void **)ppGreen,Rows);
-    Free2D((void **)ppRed,  Rows);
-  
-    // Para que valgrind detecte un 100% de memoria liberada
-    Free2D((void **) ppBlue, Rows);
+    Free2D((void**) ppGreen,Rows);
+    Free2D((void**) ppRed,  Rows);
+    Free2D((void**) ppBlue, Rows);
     return 0;
 }

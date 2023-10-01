@@ -29,20 +29,55 @@
 
 
 *******************************************************************************/
-#ifndef __GETMEM__
-#define __GETMEM__
+#pragma once
+#include <stddef.h>
 
+/*  @brief Inicializa un array de punteros genericos (void*). 
+ *  
+ *  @Num numero de elementos del array.
+ *  @Tam tamano en bytes del array. Calculado con sizeof().
+ *  @Where string que describe para que se invoco la funcion.
+ *
+ *  @return puntero al array. 
+ *  */
+void* GetMem(size_t Num, size_t Tam, const char* Where);
 
-/*----------------------------------------------------------------------------*/
-void *   GetMem       (size_t Num, size_t Tam, char const * Where);
-void **  GetMem2D     (int rows, int columns, int sizeofTipo, 
-                       char const * Where);
-void     Free2D       (void **  h, int rows);
-void *** GetMem3D     (int nelem, int rows, int columns, int sizeofTipo, 
-                       char const * Where);
-void     Free3D       (void ***  h, int nelem, int rows);
+/*  @brief Inicializa una matriz de punteros genericos (void*). 
+ *  
+ *  @rows numero de filas de la matriz.
+ *  @columns numero de columnas de la matriz
+ *  @sizeofTipo tamano en bytes de la matriz. Calculado con sizeof().
+ *  @Where string que describe para que se invoco la funcion.
+ *
+ *  @return puntero al array. 
+ *  */
+void** GetMem2D(int rows, int columns, int sizeofTipo, char const* Where);
 
+/*  @brief Libera la memoria alojada para una matriz de punteros
+ *  genericos (void*). 
+ *  
+ *  @h matriz de punteros
+ *  @rows numero de filas de la matriz.
+ *  */
+void Free2D(void** h, int rows);
 
-#endif /*__GETMEM__*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
+/*  @brief Inicializa un cubo de punteros genericos (void*). 
+ *  
+ *  @nelem numero de elementos del cubo (profundidad)
+ *  @rows numero de filas de la matriz.
+ *  @columns numero de columnas de la matriz
+ *  @sizeofTipo tamano en bytes de la matriz. Calculado con sizeof().
+ *  @Where string que describe para que se invoco la funcion.
+ *
+ *  @return puntero al cubo. 
+ *  */
+void*** GetMem3D(int nelem, int rows, int columns, int sizeofTipo, char const * Where);
+
+/*  @brief Libera la memoria alojada para un cubo de punteros
+ *  genericos (void*). 
+ *  
+ *  @h cubo de punteros
+ *  @nelem numero de elementos del cubo (profundidad)
+ *  @rows numero de filas de la matriz. 
+ *  */
+void Free3D(void***  h, int nelem, int rows);

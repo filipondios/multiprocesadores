@@ -12,21 +12,14 @@ Purpose: implement routines that will be used by other modules.
 	PrintMI: Imprimir una matriz de enteros.
 
 *******************************************************************************/
-#ifndef __UTILS__
-#define __UTILS__
+#pragma once
+#include <stdio.h>
 
-#define False 0
-#define True 1
-
-/*---------------------------------------------------------------------------*/
 FILE 	*OpenFile		(char *name, char const *mode);
 void 	CloseFile		(FILE *f);
-void 	PrintVChar 		(FILE * FOut, char * pVI, 	int Cols);
-void 	PrintMChar 		(FILE * FOut, char ** pMI, 	int Rows, int Cols);
-void 	PrintVInt 		(FILE * FOut, int * pVI,	int Cols);
-void 	PrintMInt 		(FILE * FOut, int ** pMI,	int Rows, int Cols);
-void 	PrintVDouble 	(FILE * FOut, double * pVD,	int Cols);
-void 	PrintMDpuble 	(FILE * FOut, double ** pMD,int Rows, int Cols);
-#endif /*__UTILS__*/
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
+void 	PrintVChar 		(FILE * FOut, char* pVI, 	int Cols);
+void 	PrintMChar 		(FILE * FOut, char** pMI, 	int Rows, int Cols);
+void 	PrintVInt 		(FILE * FOut, int* pVI,	    int Cols);
+void 	PrintMInt 		(FILE * FOut, int** pMI,	int Rows, int Cols);
+void 	PrintVDouble 	(FILE * FOut, double* pVD,	int Cols);
+void 	PrintMDpuble 	(FILE * FOut, double** pMD, int Rows, int Cols);
