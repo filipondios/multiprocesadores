@@ -131,7 +131,7 @@ Free2D((void**) ppBlue, Rows);
 ```
 
 8. **¿Que algoritmo tiene menor tiempo de ejecución, Bandera o Bandera2?**
-
+Ninguno
 
 **Ejecutar el comando:**
 ```console 
