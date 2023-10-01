@@ -1,10 +1,10 @@
 # Actividad: Bandera serie.
 
 # A rellenar por el alumno/grupo
- * Nombre y apellidos alumno 1   : Daniel Pérez Valverde
- * Nombre y apellidos alumno 2   : Anass El Jabiry Kaddir
- * Mayoría en GTA1, GTA2 o GTA3  : GT3 y GT1 respectivamente
- * Nombre de grupo de actividades: Grupo 58
+ * Nombre y apellidos alumno 1   : ``Daniel Pérez Valverde``
+ * Nombre y apellidos alumno 2   : ``Anass El Jabiry Kaddir``
+ * Mayoría en GTA1, GTA2 o GTA3  : ``GT3 y GT1 respectivamente``
+ * Nombre de grupo de actividades: ``Grupo 58``
 
 # Descripción de la arquitectura utilizada:
 Ver la información del micro en Internet. Otra información se puede ver con los comandos:
@@ -15,13 +15,13 @@ Ver la información del micro en Internet. Otra información se puede ver con lo
 A la BIOS se accede justo después de arrancar pulsando ESC, F1 o F2.
 
 ## Arquitectura: 
-  * Microprocesador: AMD Ryzen 7 5800X 8-Core Processor
-  * Número de núcleos: 8
-  * Cantidad de subprocesos por nucleo: 2
-  * Tiene hyperthreading (SMT) activado en BIOS: No
-  * HDD/SDD: 931Gb
-  * RAM: 15Gb
-  * Se usa máquina virtual: No
+  * Microprocesador: ``AMD Ryzen 7 5800X 8-Core Processor``
+  * Número de núcleos: ``8``
+  * Cantidad de subprocesos por nucleo: ``2``
+  * Tiene hyperthreading (SMT) activado en BIOS: ``No``
+  * HDD/SDD: ``931Gb``
+  * RAM: ``15Gb``
+  * Se usa máquina virtual: ``No``
 
 ## Instrucciones:
  * El ejemplo muestra como generar una imagen RGB de la bandera de España.
@@ -85,12 +85,26 @@ $ valgrind ./Bandera -r 300 -c 400
 ```
 1. **Muestra aquí la salida de pantalla:**
 
+<img src="https://github.com/dpv927/multiprocesadores/blob/main/Bandera/resources/memloss.png?raw=true">
+
 2. **¿Hay perdida de memoria?**
 
-3. **¿Qué has tenido que corregir en Bandera.c para que no haya perdida de memoria**. 
-* Hay que entregar el Bandera.c corregido. 
+Si, en concreto se han perdido 122.400 bytes por no liberar correctamente la memoria usada en el prgrama. 
+
+4. **¿Qué has tenido que corregir en Bandera.c para que no haya perdida de memoria**. 
+Se han corregido las ultimas lineas de Bandera.c, donde se liberaba la memoria de las matrices ppRed y ppGreen pero no se liberaba ppBlue:
+
+```c
+//Free allocated memory
+Free2D((void**) ppGreen,Rows);
+Free2D((void**) ppRed,  Rows);
+
+// Liberar memoria de ppBlue:
+Free2D((void**) ppBlue, Rows);
+```
 
 4. **Muestra aquí la salida de pantalla del comando valgrind sobre Bandera sin perdida de memoria.**
+<img src="https://github.com/dpv927/multiprocesadores/blob/main/Bandera/resources/nomemloss.png?raw=true">
 
 - - - 
 ## Parte 2: Mejorar el rendimiento.
