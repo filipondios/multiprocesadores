@@ -127,7 +127,7 @@ Free2D((void**) ppBlue, Rows);
 
     Dimensión: 4096 x 4096
     
-    Tamaño: 5985 KB
+    Tamaño: 49152 KB
 
 7. **Mostrar el menor tiempo real de varias ejecuciones de la salida de:**
 ```console 
