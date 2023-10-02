@@ -73,7 +73,8 @@ int main(int argc, char **argv) {
 
     int mid = Rows>>2;
     int send = Rows*3/4;
-        
+    
+    /*
     for(int i=0; i<Cols; i++){
         for (int j=0; j<mid; j++)
             ppRed[j][i] = (char)225;
@@ -85,14 +86,27 @@ int main(int argc, char **argv) {
 
         for (int j=send; j<Rows; j++)
             ppRed[j][i] = (char)225;
+    }*/
+    
+    int i, j;
+    char val = (char) 255;
+
+    for(i=0; i < Rows; i++) {
+        if(i > mid && i < send) {
+            for(j=0; j<Cols; j++)
+                ppGreen[i][j] = ppRed[i][j] = val;
+        }else {
+            for(j=0; j<Cols; j++)
+                ppRed[i][j] = val;
+        }
     }
 
     if (GenImage) {
         //Print to file
 	    FOut = OpenFile(FileName,"wb");    
 
-        for (int i=0;i<Rows;i++) {
-	        for (int j=0;j<Cols;j++) {
+        for (i=0;i<Rows;i++) {
+	        for (j=0;j<Cols;j++) {
 		        fwrite(&ppRed  [i][j], sizeof(char), 1, FOut);
 			    fwrite(&ppGreen[i][j], sizeof(char), 1, FOut);
 			    fwrite(&ppBlue [i][j], sizeof(char), 1, FOut);
