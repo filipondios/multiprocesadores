@@ -123,7 +123,11 @@ Free2D((void**) ppBlue, Rows);
 
 **Nota**: 1 kB =1024 bytes.
 
-6. **¿Que valor de Rows=Cols has elegido? ¿Cuanta memoria ocupa la imagen?** 
+6. **¿Que valor de Rows=Cols has elegido? ¿Cuanta memoria ocupa la imagen?**
+
+    Dimensión: 4096 x 4096
+    
+    Tamaño: 5985 KB
 
 7. **Mostrar el menor tiempo real de varias ejecuciones de la salida de:**
 ```console 
@@ -131,7 +135,8 @@ Free2D((void**) ppBlue, Rows);
 ```
 
 8. **¿Que algoritmo tiene menor tiempo de ejecución, Bandera o Bandera2?**
-Ninguno
+
+    Bandera2
 
 **Ejecutar el comando:**
 ```console 
@@ -139,9 +144,9 @@ Ninguno
 ```
 
 9. **Mostrar los valores:** 
- * page-faults:u = 
- * L1-dcache-load-misses:u =
- * LLC-load-misses:u =
+ * page-faults:u = 12.424      
+ * L1-dcache-load-misses:u = 1.388
+ * LLC-load-misses:u = 1.207.254
 
 **Nota**: perf stat -r 3 -ddd permite obtener más detalles.
 
@@ -149,9 +154,19 @@ Ninguno
 
 10. **En Bandera2 cambia el orden del doble bucle, primero las columnas (j) y luego las filas (i). Muestra para esta versión los resultados solicitados en los puntos 7 y 9.**
 
+    El tiempo es 7,606 segundos
+
+  * page-faults:u = 12.425     
+  * L1-dcache-load-misses:u = 18.222.200      
+  * LLC-load-misses:u = 23.302.318
+
 11. **¿Cuando se tienen más fallos de cache, visitando la matriz primero por filas o primero por columnas? ¿Porqué?** 
 
+    Visitando primero por filas, por el resultado que hemos obtenido anteriormente da más fallos en caso de acceder primero por fila ([j][i]) que por columnas ([i][j]).
+
 12. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+
+    Si, lo hemos hecho.
 
 - - - 
 ### Como ver este .md en el navegador
