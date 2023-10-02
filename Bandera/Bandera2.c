@@ -71,22 +71,21 @@ int main(int argc, char **argv) {
  printf("Rows/4=%d, Rows*3/4=%d\n", Rows/4, Rows*3/4);
  #endif
 
-    /*Red*/
-    for (int i=0; i<Rows/4; i++)
-        for (int j=0; j<Cols; j++)
-            ppRed[i][j]=(char)255;
+    int mid = Rows>>2;
+    int send = Rows*3/4;
+        
+    for(int i=0; i<Cols; i++){
+        for (int j=0; j<mid; j++)
+            ppRed[j][i] = (char)225;
 
-    /*Yellow*/
-    for (int i=Rows/4; i<Rows*3/4; i++){
-        for (int j=0; j<Cols; j++) {
-            ppRed  [i][j]=(char)255;
-            ppGreen[i][j]=(char)255;
+        for (int j=mid; j<send; j++){
+            ppRed[j][i] = (char)225;
+            ppGreen[j][i] =(char)255;
         }
+
+        for (int j=send; j<Rows; j++)
+            ppRed[j][i] = (char)225;
     }
-    /*Red*/
-    for (int i=Rows*3/4; i<Rows; i++)
-        for (int j=0; j<Cols; j++)
-          ppRed[i][j]=(char)255;
 
     if (GenImage) {
         //Print to file
