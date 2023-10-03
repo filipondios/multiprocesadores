@@ -83,7 +83,7 @@ Si, se ha verificado que la imagen se genera correctamente, tal y como se muestr
 
 Si, hemos verificado que no hay perdida, tal y como se observa en la siguiente imagen:
 
-<img src="https://github.com/dpv927/multiprocesadores/blob/main/Mandel/nomemloss.png?raw=true" height="500" width="1000">
+<img src="https://github.com/dpv927/multiprocesadores/blob/main/Mandel/nomemloss.png?raw=true">
 
 5. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
 
