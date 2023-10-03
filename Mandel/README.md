@@ -72,11 +72,22 @@ $ ./Mandel -h
 
 - Hay que entregar el fichero modificado. Ver las líneas comentadas con "//TODO:".
 
-1. **¿Has verificado que la imagen se genera correctamente?** Si, hemos verificado que la imagen se genera correctamente.
+1. **¿Has verificado que la imagen se genera correctamente?**
 
-2. **¿Has verificado que no tienes perdida memoria?** Si, hemos verificado que no hay perdida.
+Si, se ha verificado que la imagen se genera correctamente, tal y como se muestra en la siguiente imagen:
 
-3. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?** Si, hemos borrado todos los ficheros innecesarios.
+<img src="https://github.com/dpv927/multiprocesadores/blob/main/Mandel/Image.png?raw=true" height="500" width="1000">
+
+
+3. **¿Has verificado que no tienes perdida memoria?**
+
+Si, hemos verificado que no hay perdida, tal y como se observa en la siguiente imagen:
+
+<img src="https://github.com/dpv927/multiprocesadores/blob/main/Mandel/nomemloss.png?raw=true" height="500" width="1000">
+
+5. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+
+Si, se han eliminado todos los archivos no entregables con el comando 'make clean' borrado todos los ficheros innecesarios.
 
 ---
 
