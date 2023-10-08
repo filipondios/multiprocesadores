@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "getmem.h"
 #include "utils.h"
 #include "animals.h"
@@ -79,7 +80,6 @@ void OceanToRGBFile(DataAnimal *** Ocean, char * FileName,
  CloseFile(FOut);
 }
 
-
 /*---------------------------------------------------------------------------*/
 void FreeNeighbours(DataAnimal ***Ocean, 
                    const int Rows, const int Cols,
@@ -148,26 +148,46 @@ void FreeNeighbours(DataAnimal ***Ocean,
 void IterateFish(DataAnimal ***Ocean, 
                  const int Rows, const int Cols,
                  const int i, const int j,
-                 const int SimIter, int * pNFishes, const int NiFBreed)
-{
- int Newi, Newj; 
- int FreeX[4];	//x values of free neighbourg cells.
- int FreeY[4];	//y values of free neighbourg cells.
- int NFoundFree=0; //How many free cells were found.
- int FreeXYIndex;
+                 const int SimIter, int * pNFishes, const int NiFBreed) { 
+    int Newi, Newj;
+    int FreeX[4];       // x values of free neighbourg cells.
+    int FreeY[4];       // y values of free neighbourg cells.
+    int NFoundFree = 0; // How many free cells were found.
+    int FreeXYIndex;
 
- //TODO if already visited: do nothing
- //TODO increment SimIter and NIterLive
- //TODO Look for free cells
- //TODO if not free cells do nothing
- //TODO if breed 
- //TODO    generate a new fish in the free cell
- //TODO    NIterLive of old fish=0
- //TODO If not breed
- //TODO    move to the new cell.
- 
+    // TODO if already visited: do nothing
+    if (Ocean[i][j]->SimIter > SimIter)
+        return;
+    // TODO increment SimIter and NIterLive
+    Ocean[i][j]->SimIter++;
+    Ocean[i][j]->NIterLive++;
+    // TODO Look for free cells
+    FreeNeighbours(Ocean, Rows, Cols, i, j, FreeX, FreeY, &NFoundFree);
+    // TODO if not free cells do nothing
+    if (NFoundFree == 0)
+        return;
+
+    FreeXYIndex = lrand48() % NFoundFree;
+    Newi = FreeX[FreeXYIndex];
+    Newj = FreeY[FreeXYIndex];
+    // TODO if breed
+    if (Ocean[i][j]->NIterLive >= NiFBreed)
+    {
+        // TODO    generate a new fish in the free cell
+        Ocean[Newi][Newj] = NewAnimal(FISH, SimIter + 1, 0);
+        (*pNFishes)++;
+
+        // TODO    NIterLive of old fish=0
+        Ocean[i][j]->NIterLive = 0;
+    }
+    // TODO If not breed
+    else
+    {
+    // TODO    move to the new cell.
+        Ocean[Newi][Newj] = Ocean[i][j];
+        Ocean[i][j] = NULL;
+    }
 }
-
 
 /*---------------------------------------------------------------------------*/
 void FishNeighbours(DataAnimal ***Ocean, 
