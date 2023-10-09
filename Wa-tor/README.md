@@ -1,22 +1,19 @@
 # Actividad Wa-tor serie:
 
 ## A rellenar por el alumno
- * Nombre y apellidos alumno 1   : 
- * Nombre y apellidos alumno 2   : 
- * Nombre y apellidos alumno 3   : 
- * Mayoría en GTA1, GTA2 o GTA3  : 
- * Nombre de grupo de actividades: 
+ * Nombre y apellidos alumno 1   : ``Daniel Pérez Valverde``
+ * Nombre y apellidos alumno 2   : ``Anass El Jabiry Kaddir``
+ * Mayoría en GTA1, GTA2 o GTA3  : ``GT3 y GT1 respectivamente``
+ * Nombre de grupo de actividades: ``Grupo 58``
 
 ## Descripción de la arquitectura utilizada: 
-  * Microprocesador:
-  * Número de núcleos:
-  * Cantidad de subprocesos por núcleo:
-  * Tiene hyperthreading (SMT) activado en BIOS:
-  * RAM:
-  * Se usa máquina virtual:
-    - Número de cores:
-    - RAM: 
-    - Capacidad HDD: 
+* Microprocesador: ``AMD Ryzen 7 5800X 8-Core Processor``
+* Número de núcleos: ``8``
+* Cantidad de subprocesos por nucleo: ``2``
+* Tiene hyperthreading (SMT) activado en BIOS: ``No``
+* HDD/SDD: ``931Gb``
+* RAM: ``15Gb``
+* Se usa máquina virtual: ``No``
 
 ## Instrucciones:
 * El alumno debe realizar la rutina de iteración de un pez.
@@ -87,15 +84,19 @@ $ kill -9 <pid>
 
 1. **Indica los comandos que has realizado para hacer el profiling**.
 
-2. **En el fichero Profiling.txt con la salida del gprof del programa, ¿Que rutinas consumen más tiempo?**
+```bash
 
-3. **Indica los comandos que has realizado para hacer el chequeo de perdida de memoria.**
+```
 
-4. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
+3. **En el fichero Profiling.txt con la salida del gprof del programa, ¿Que rutinas consumen más tiempo?**
 
-5. **¿Existen ejecuciones en las que no se llegan al número establecido de iteraciones? ¿Porqué?**
+4. **Indica los comandos que has realizado para hacer el chequeo de perdida de memoria.**
 
-6.  **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+5. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
+
+6. **¿Existen ejecuciones en las que no se llegan al número establecido de iteraciones? ¿Porqué?**
+
+7.  **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
 
 - - -
 
