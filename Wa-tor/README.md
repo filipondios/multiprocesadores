@@ -84,19 +84,93 @@ $ kill -9 <pid>
 
 1. **Indica los comandos que has realizado para hacer el profiling**.
 
+Primero debemos activar el flag de profiling en el archivo makefile:
 ```bash
+PROF=-pg
+```
+Despues solo tenemos que compilar el programa y generar el archivo de profiling Profiling.txt:
+```bash
+# compilar
+make clean && make
 
+# Ejecutar para obtener gmon.out
+./Wa-tor -ni 10000
+
+# Generar archivo de profiling
+gprof ./Wa-tor gmon.out > Profiling.txt
 ```
 
 3. **En el fichero Profiling.txt con la salida del gprof del programa, ¿Que rutinas consumen más tiempo?**
+   
+Los resultados obtenidos son los siguientes:
+```
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  us/call  us/call  name    
+ 29.35      0.39     0.39    10000    39.03   132.60  IterateOcean
+ 23.33      0.70     0.31 26011238     0.01     0.02  IterateFish
+ 18.44      0.95     0.25 29006343     0.01     0.01  FreeNeighbours
+ 15.05      1.15     0.20 12037975     0.02     0.03  IterateShark
+ 10.53      1.29     0.14  7897346     0.02     0.02  FishNeighbours
+  1.50      1.31     0.02  4387302     0.00     0.00  SwapInt
+  1.50      1.33     0.02  2347149     0.01     0.01  NewAnimal
+  0.38      1.33     0.01                             OceanToRGBFile
+  0.00      1.33     0.00  2347250     0.00     0.00  GetMem
+  0.00      1.33     0.00       15     0.00     0.00  ExistArg
+  0.00      1.33     0.00        1     0.00     0.00  Free2D
+  0.00      1.33     0.00        1     0.00     0.00  FreeOcean
+  0.00      1.33     0.00        1     0.00     0.00  GetArg
+  0.00      1.33     0.00        1     0.00     0.00  GetMem2D
+  0.00      1.33     0.00        1     0.00    25.58  InitOcean
+```
+Con ello, podemos confirmar que las rutinaas que consumen maas tiempo del programa son IterateOcean, IterateFish y FreeNeighbours con bastante diferencia respecto de las demas. 
 
 4. **Indica los comandos que has realizado para hacer el chequeo de perdida de memoria.**
+   
+De igual manera que hemos activado el flag -pg en el makefile, ahora debemos desactivarlo;
+```bash
+#PROF=-pg
+```
 
-5. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
+Ahora debemos compilar de nuevo el programa y ejecutar valgrind para obtener el archivo MemProf.txt:
+```bash
+# compilar
+make clean && make
 
-6. **¿Existen ejecuciones en las que no se llegan al número establecido de iteraciones? ¿Porqué?**
+# generar el archivo
+valgrind --log-file="MemProf.txt" ./Wa-tor -ni 10000
+```
 
-7.  **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+6. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
+Mo, no existen perdidas de memoria, tal y como se puede observar:
+```
+==2753== Memcheck, a memory error detector
+==2753== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2753== Using Valgrind-3.21.0 and LibVEX; rerun with -h for copyright info
+==2753== Command: ./Wa-tor -ni 10000
+==2753== Parent PID: 1028
+==2753==
+==2753==
+==2753== HEAP SUMMARY:
+==2753==     in use at exit: 0 bytes in 0 blocks
+==2753==   total heap usage: 2,464,856 allocs, 2,464,856 frees, 39,517,888 bytes allocated
+==2753==
+==2753== All heap blocks were freed -- no leaks are possible
+==2753==
+==2753== For lists of detected and suppressed errors, rerun with: -s
+==2753== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
+
+8. **¿Existen ejecuciones en las que no se llegan al número establecido de iteraciones? ¿Porqué?**
+
+Por ejemplo, si observamos una simulación que ha realizado 100,023 iteraciones máximas, solo se han conseguido 25,032. Esto puede ocurrir cuando quedan pocos peces y muchos tiburones, lo que provoca que los peces no tengan tiempo para reproducirse antes de que un tiburón se los coma.
+```
+~/Desktop/multiprocesadores/Wa-tor # ./Wa-tor -ni 100023
+Wa-tor ends. Niter=25032, NFishes= 0, NSharks=641.
+```
+
+10.  **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+
+Si, todos los archivos innecesarios han sido borrados.
 
 - - -
 
