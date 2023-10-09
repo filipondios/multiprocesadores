@@ -141,6 +141,7 @@ valgrind --log-file="MemProf.txt" ./Wa-tor -ni 10000
 ```
 
 6. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
+
 Mo, no existen perdidas de memoria, tal y como se puede observar:
 ```
 ==2753== Memcheck, a memory error detector
