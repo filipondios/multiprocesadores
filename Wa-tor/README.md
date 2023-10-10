@@ -122,11 +122,11 @@ Los resultados obtenidos son los siguientes:
   0.00      1.33     0.00        1     0.00     0.00  GetMem2D
   0.00      1.33     0.00        1     0.00    25.58  InitOcean
 ```
-Con ello, podemos confirmar que las rutinaas que consumen maas tiempo del programa son IterateOcean, IterateFish y FreeNeighbours con bastante diferencia respecto de las demas. 
+Con ello, podemos confirmar que las rutinaas que consumen más tiempo del programa son IterateOcean, IterateFish y FreeNeighbours con bastante diferencia respecto de las demás. 
 
 4. **Indica los comandos que has realizado para hacer el chequeo de perdida de memoria.**
    
-De igual manera que hemos activado el flag -pg en el makefile, ahora debemos desactivarlo;
+De igual manera que hemos activado el flag -pg en el makefile, ahora debemos desactivarlo:
 ```bash
 #PROF=-pg
 ```
@@ -140,9 +140,9 @@ make clean && make
 valgrind --log-file="MemProf.txt" ./Wa-tor -ni 10000
 ```
 
-6. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
+5. **En el fichero Memprof.txt que has generado con la salida de valgrind, ¿Existen perdidas de memoria?**
 
-Mo, no existen perdidas de memoria, tal y como se puede observar:
+No, no existen perdidas de memoria, tal y como se puede observar:
 ```
 ==2753== Memcheck, a memory error detector
 ==2753== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
@@ -161,7 +161,7 @@ Mo, no existen perdidas de memoria, tal y como se puede observar:
 ==2753== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
-8. **¿Existen ejecuciones en las que no se llegan al número establecido de iteraciones? ¿Porqué?**
+6. **¿Existen ejecuciones en las que no se llegan al número establecido de iteraciones? ¿Porqué?**
 
 Por ejemplo, si observamos una simulación que ha realizado 100,023 iteraciones máximas, solo se han conseguido 25,032. Esto puede ocurrir cuando quedan pocos peces y muchos tiburones, lo que provoca que los peces no tengan tiempo para reproducirse antes de que un tiburón se los coma.
 ```
@@ -169,7 +169,7 @@ Por ejemplo, si observamos una simulación que ha realizado 100,023 iteraciones 
 Wa-tor ends. Niter=25032, NFishes= 0, NSharks=641.
 ```
 
-10.  **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+7.  **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
 
 Si, todos los archivos innecesarios han sido borrados.
 
