@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 // CsPar: Codigo secuencial a paralelizar.
 // TODO
 #ifdef _OPENMP
-#pragma omp parallel for default(none) shared(ppRed, ppGreen, Cols, Rows)
+#pragma omp parallel for schedule(static) default(none) shared(ppRed, ppGreen, Cols, Rows)
 #endif
    for (int i = 0; i < Rows; i++)
       for (int j = 0; j < Cols; j++)
