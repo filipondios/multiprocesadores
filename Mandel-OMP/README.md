@@ -108,12 +108,17 @@ $ oocalc Speed-up.ods
 2. **¿Porqué ahora la salida gráfica no es tan influyente en SpA() como en la actividad Bandera-OMP?** 
  * Contesta teniendo en cuenta los porcentajes de código paralelizado y no paralelizado.
 
+Esto es debido a que casi todo el codigo es paralelizable. Por ejemplo, si nos fijamos en el tiempo paralelizable con el flag `-mi 1e5`, la diferencia es menor a una decima de segundo, pese a que los tiempos son muy grandes.
 
 ## Speed-up real Sp(p): 
 
 La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el comando *eog* al usar hebras.
 
 3. **Describe que realiza el schedule(static) y qué chunk usa por defecto.**
+
+Esta clausula reparte de forma estatica o fija un numero iteraciones entre hilos. Esto significa que a la hora de ejecutar el programa, cada hilo se encargara de un numero fijo de iteraciones. 
+
+Si se trata de un solo hilo, se le asignara el chunk completo, es decir, todas las iteraciones del bucle (externo). En caso de que hayan mas hilos, se repartiran de forma uniforme los chunks.
 
 4. **Rellena la siguiente tabla. Para la parte paralela se usará schedule(static) sin establecer el chunk.** 
 
@@ -122,12 +127,12 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
 
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
-|T(1)         |                 |                 | 
-|T(2)         |                 |                 | 
-|T(4)         |                 |                 | 
-|Sp(1)        |                 |                 | 
-|Sp(2)        |                 |                 | 
-|Sp(4)        |                 |                 | 
+|T(1)         | 5,850           | 57,106          | 
+|T(2)         | 2,977           | 28,832          | 
+|T(4)         | 2,940           | 28,902          | 
+|Sp(1)        | 0,9867          | 0,9793          | 
+|Sp(2)        | 1,9389          | 1,9396          | 
+|Sp(4)        | 1,9632          | 1,9348          | 
 
 5. **¿Hay diferencias entre T.Sec y T(1)?**
  * Ver el número de hebras se usan realmente en T(1). Hay más recursos? 
@@ -137,34 +142,42 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
 
 7. **Describe que realiza el schedule(dynamic) y que chunk usa por defecto.**
 
+Esta clausula asigna de forma dinámica las iteraciones de un bucle a los hilos. Esto significa que, cada vez que un hilo termina una iteración, se le asigna la siguiente iteración que no ha sido asignada a ningún otro hilo.
+
+Por defecto, schedule(dynamic) asigna el tamano del chunk a 1, es decir, a una unica iteración.
+
 8. **Rellena la siguiente tabla. Para la parte paralela se usará schedule(dynamic) sin establecer el chunk.**
 
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
-|T(1)         |                 |                 | 
-|T(2)         |                 |                 | 
-|T(4)         |                 |                 | 
-|Sp(1)        |                 |                 | 
-|Sp(2)        |                 |                 | 
-|Sp(4)        |                 |                 | 
-
+|T(1)         | 5,749           | 56,562          | 
+|T(2)         | 2,927           | 29,048          | 
+|T(4)         | 1,547           | 14,856          | 
+|Sp(1)        | 1,0175          | 1,0097          | 
+|Sp(2)        | 1,99863         | 1,9659          | 
+|Sp(4)        | 3,78151         | 3,8439          | 
 
 9. **Describe que realiza el schedule(guided) y que chunk usa por defecto.**
 
+Esta clausula asigna iteraciones a los hilos de forma dinámica, pero de una manera que intenta minimizar el tiempo de espera de los hilos. Al principio, la cláusula schedule(guided) asigna un chunk de tamaño grande a cada hilo. A medida que los hilos van terminando sus iteraciones, el tamaño del chunk se va reduciendo.
+
+Por defecto, la cláusula schedule(guided) utiliza un chunk de tamaño 10, es decir, 10 iteraciones del bucle principal.
 
 10. **Rellena la siguiente tabla. Para la parte paralela se usará schedule(guided) sin establecer el chunk.**
 
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
-|T(1)         |                 |                 | 
-|T(2)         |                 |                 | 
-|T(4)         |                 |                 | 
-|Sp(1)        |                 |                 | 
-|Sp(2)        |                 |                 | 
-|Sp(4)        |                 |                 | 
+|T(1)         | 5,922           | 56,928          | 
+|T(2)         | 2,950           | 29,120          | 
+|T(4)         | 3,248           | 31,675          | 
+|Sp(1)        | 0,9878          | 0,9823          | 
+|Sp(2)        | 1,9831          | 1,9204          | 
+|Sp(4)        | 1,8011          | 1,7655          | 
 
 
 11. **¿Qué scheduler se comporta mejor para -mi 1e5? ¿Porqué?**
+
+Parece ser que se comporta mejor schedule(dynamic). Podemos observar que los tiempos son mejores, y ademas, podemos razonar que al ser el trabajo de cada iteración diferente y al repartirse el trabajo entre hilos en base al trabajo realizado, podemos concluir que en este caso, schedule(dynamic) es la mejor opción. 
 
 12. **¿Cual es el mejor chunk para el scheduler dynamic y -mi 1e5?**
 * Hay que hacer una búsqueda dicotómica del mejor chunk.
@@ -192,8 +205,6 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
 14. **Explica el porqué de los resultados usando chunk y sin usarlo.**
 
 15. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
-
-
 
 - - - 
 
