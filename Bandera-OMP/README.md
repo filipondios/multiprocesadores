@@ -138,11 +138,15 @@ SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(0.626405172/p+0.373594828)
 
 2. **¿Cuanto es el valor de SpA(p) si p=1?**
 
-SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(0.626405172/1+0.373594828) = 1
+```
+   SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(0.626405172/1+0.373594828) = 1
+```
 
 3. **¿Cuanto es el valor de SpA(p) si todo el código no es paralelizable?**
 
-SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(0/p+1) = 1
+```
+   SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(0/p+1) = 1
+```
 
 4. **¿Cuanto es el valor de SpA(p) si se puede paralelizar todo el código?**
 
@@ -150,14 +154,18 @@ SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(0/p+1) = 1
 - Cada pixel necesita tres bytes, uno para cada color.
 - 1 kB =1024 bytes.
 
-SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(1/p+0) = p
+```
+    SpA(p)= 1/(%T.CsPar/p+%T.CsnPar) = 1/(1/p+0) = p
+```
 
 5. **¿Que valor de Rows=Col has elegido? ¿Cuanta memoria (Mem.) ocupa la imagen?**
 
+```
    El valor que hemos elegido es 11264. La imagen ocupa 26KB. Como utilizamos el color rojo solo para dibujar la mitad de la imagen en total y luego combinamos el rojo y el verde para formar el amarillo para dibujar en la mitad. La formula para saber la memoria que ocupa es:
    Rojo: 11264 x (11264 / 2) x 2 = 12687769 bytes = 123904KB
-   Amarillo: (11264 x (11264 / 2)) x 2 = 123904KB  
+   Amarillo: (11264 x (11264 / 2)) x 2 = 123904KB
    En total seria de 247808KB
+```
 
 6. **Rellena la siguiente tabla para la versión secuencial sin salida gráfica.**
 
@@ -179,7 +187,7 @@ $ oocalc Speed-up.ods
 
 | Ejecución | -r 1024 -r 1024 | -r Rows -c Cols |
 | --------- | --------------- | --------------- |
-| Mem.      | 2048KB          | 247808KB        |
+| Mem.      | 2048KB          | 354,52 MiB      |
 | T.Sec     | 0.013s          | 1,16s           |
 | T.CsPar   | 0.005556s       | 0,72663s        |
 | SpA(2)    | 1,2717667775    | 1,4560334386    |
@@ -187,14 +195,16 @@ $ oocalc Speed-up.ods
 
 ## Speed-up real Sp(p):
 
-7. **Describe la formula de la ganancia en velocidad o speed-up real, describiendo los términos utilizados.**  
+7. **Describe la formula de la ganancia en velocidad o speed-up real, describiendo los términos utilizados.**
+
    La fórmula para la ganancia en velocidad (Speedup Real) se utiliza para cuantificar el rendimiento de un programa o proceso cuando se ejecuta en un sistema paralelo en comparación con su ejecución en un sistema secuencial. La fórmula se expresa de la siguiente manera:
    $$SR = \frac{T.Sec}{T(p)} $$
 
 - Donde:
   - T(p) : Tiempo total del programa paralelo con p elementos de proceso.
 
-8. **Describe qué realiza el schedule(static) y qué chunk usa por defecto.**  
+8. **Describe qué realiza el schedule(static) y qué chunk usa por defecto.**
+
    Esta cláusula se utiliza en bucles paralelos para especificar cómo se deben asignar las iteraciones del bucle a los hilos (threads) en un equipo paralelo.
 
    Por defecto, cuando se utiliza schedule(static), el "chunk size" o tamaño del fragmento se calcula automáticamente por OpenMP para lograr una distribución equitativa de las iteraciones entre los hilos.
@@ -220,11 +230,15 @@ $ export OMP_NUM_THREADS=4
 | Sp(2)     | 1.4             | 1.9531          |
 | Sp(4)     | 1.2727          | 1.6964          |
 
-10. **¿Es el SpA(p) distinto del SP(p)? ¿Por qué?**  
-    La fórmula de la ganancia en velocidad (Speed-Up Real) se utiliza para evaluar el rendimiento real de un programa o sistema paralelo después de su implementación. Mientras que la Ley de Amdahl se utiliza para establecer límites teóricos, el Speed-Up Real permite calcular el rendimiento real en un entorno específico.  
-    Por lo que si son distintos.
+10. **¿Es el SpA(p) distinto del SP(p)? ¿Por qué?**
 
-11. **Teóricamente, ¿Mejoraría el Sp() si se establece el tamaño del chunk en el schedule(static,chunk)? ¿Y si se usa otro scheduler?**  
+```
+La fórmula de la ganancia en velocidad (Speed-Up Real) se utiliza para evaluar el rendimiento real de un programa o sistema paralelo después de su implementación. Mientras que la Ley de Amdahl se utiliza para establecer límites teóricos, el Speed-Up Real permite calcular el rendimiento real en un entorno específico.
+Por lo que si son distintos.
+```
+
+11. **Teóricamente, ¿Mejoraría el Sp() si se establece el tamaño del chunk en el schedule(static,chunk)? ¿Y si se usa otro scheduler?**
+
     Tamaño del Chunk en `schedule(static, chunk)`:
 
 - _Chunk Pequeño_: Si el tamaño del chunk es demasiado pequeño, puede generar overhead en la asignación de tareas a los hilos, lo que afecta negativamente el rendimiento.
@@ -274,7 +288,7 @@ $ time Bandera-OMP -r Rows -c Cols -o España
 
 | Ejecución | -r 1024 -r 1024 | -r Rows -c Cols |
 | --------- | --------------- | --------------- |
-| Mem.      |                 |                 |
+| Mem.      | 2048KB          | 247808KB        |
 | T.Sec     | 0.299s          | 30.679s         |
 | T.CsPar   | 0.005442s       | 0.777256s       |
 | SpA(2)    | 1,0091839111    | 1,0128300834    |
@@ -309,9 +323,9 @@ $ time Bandera-OMP -r Rows -c Cols -o España
 
   En resumen, la diferencia entre las situaciones actuales y las tablas 6 y 9 podría deberse a una combinación de un menor porcentaje de código paralelizable (P) y un mayor porcentaje de código no paralelizable (1 - P) en el programa, así como a los efectos prácticos de overheads de paralelización y posibles desequilibrios en la carga de trabajo entre los hilos o procesadores. Estos factores podrían llevar a un SpA() y Sp(p) más bajos en las condiciones actuales en comparación con las tablas 6 y 9.
 
-17. **¿Porque SpA(p) y Sp(p) no mejoran sustancialmente al aumentar el tamaño de la imagen?**  
+17. **¿Porque SpA(p) y Sp(p) no mejoran sustancialmente al aumentar el tamaño de la imagen?**
 
-  El hecho de que SpA(p) y Sp(p) no mejoren sustancialmente al aumentar el tamaño de la imagen puede deberse a varias razones:
+El hecho de que SpA(p) y Sp(p) no mejoren sustancialmente al aumentar el tamaño de la imagen puede deberse a varias razones:
 
 1. Límite de Paralelización: Es posible que el algoritmo que estás paralelizando tenga un límite en la cantidad de trabajo que se puede paralelizar de manera efectiva. Si la gran mayoría del tiempo se gasta en cálculos que no pueden ser paralelizados, el aumento del tamaño de la imagen no cambiará este hecho fundamental.
 
@@ -320,7 +334,7 @@ $ time Bandera-OMP -r Rows -c Cols -o España
 3. Overheads de Paralelización: La creación y sincronización de hilos en paralelización conlleva overheads que pueden afectar el rendimiento. A medida que aumenta el tamaño de la imagen, estos overheads pueden convertirse en una proporción más pequeña del tiempo total, lo que limita la mejora proporcional del rendimiento.
 
 4. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**  
-Se hizo.
+   Se hizo.
 
 ---
 
