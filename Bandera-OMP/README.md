@@ -187,7 +187,7 @@ $ oocalc Speed-up.ods
 
 | Ejecución | -r 1024 -r 1024 | -r Rows -c Cols |
 | --------- | --------------- | --------------- |
-| Mem.      | 2048KB          | 354,52 MiB      |
+| Mem.      | 2MiB            | 354,52 MiB      |
 | T.Sec     | 0.013s          | 1,16s           |
 | T.CsPar   | 0.005556s       | 0,72663s        |
 | SpA(2)    | 1,2717667775    | 1,4560334386    |
@@ -288,7 +288,7 @@ $ time Bandera-OMP -r Rows -c Cols -o España
 
 | Ejecución | -r 1024 -r 1024 | -r Rows -c Cols |
 | --------- | --------------- | --------------- |
-| Mem.      | 2048KB          | 247808KB        |
+| Mem.      | 2.1MiB          | 365MiB          |
 | T.Sec     | 0.299s          | 30.679s         |
 | T.CsPar   | 0.005442s       | 0.777256s       |
 | SpA(2)    | 1,0091839111    | 1,0128300834    |
