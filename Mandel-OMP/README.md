@@ -100,11 +100,10 @@ $ oocalc Speed-up.ods
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
 | Memoria(Gb) |                 |                 |
-|T.Sec        |                 |                 |
-|T.CsPar      |                 |                 |
-|SpA(2)       |                 |                 |
-|SpA(4)       |                 |                 |
-
+|T.Sec        | 5,722s          | 55,922s         |
+|T.CsPar      | 5,65456s        | 55,8575s        |
+|SpA(2)       | 1,9767          | 1,9952          |
+|SpA(4)       | 3,8633          | 3,9713          |
 
 2. **¿Porqué ahora la salida gráfica no es tan influyente en SpA() como en la actividad Bandera-OMP?** 
  * Contesta teniendo en cuenta los porcentajes de código paralelizado y no paralelizado.

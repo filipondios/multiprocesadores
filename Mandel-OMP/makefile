@@ -1,8 +1,8 @@
 PREFIX  = /home/$(shell whoami)
 DEBUG   =  
 #DEBUG   =  -g
-OMP = 
-#OMP = -fopenmp
+#OMP = 
+OMP = -fopenmp
 FLAGS   = -Wall  
 #FLAGS   = -Wall -O3 -ftree-parallelize-loops=4
 INC     = -I.
