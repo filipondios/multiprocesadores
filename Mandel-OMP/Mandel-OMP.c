@@ -218,12 +218,15 @@ int main(int argc, char **argv)
  gettimeofday(&tv1, &tz);
  # endif
 
+// max: 56,536
+// min: 29,388
+
     //TODO Parallelize with OpenMP 
     #ifdef _OPENMP
     #pragma omp parallel for\
         default(none)\
         shared(Rows, Cols, ppRed, ppBlue, ppGreen, MinX, MinY, MaxNIter, IncX, IncY)\
-        schedule(dynamic)
+        schedule(dynamic,23)
     #endif
     for (int i=0;i<Rows;i++)
      for (int j=0;j<Cols;j++)

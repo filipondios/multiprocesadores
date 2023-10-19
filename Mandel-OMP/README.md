@@ -14,16 +14,13 @@
 
 ## Arquitectura:
 
-- Microprocesador:
-- Número de núcleos:
-- Cantidad de subprocesos por núcleo:
-- Tiene hyperthreading (SMT) activado en BIOS:
-- HDD/SDD:
-- RAM:
-- Se usa máquina virtual:
-  - Número de cores:
-  - RAM:
-  - Capacidad HDD:
+- Microprocesador: AMD Ryzen 7 5800X 8-Core Processor 
+- Número de núcleos: 8
+- Cantidad de subprocesos por núcleo: 2
+- Tiene hyperthreading (SMT) activado en BIOS: No
+- HDD/SDD: 1Tb
+- RAM: 16Gb
+- Se usa máquina virtual: No
 
 # Instrucciones
 
@@ -151,9 +148,15 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
 
 - Ver el número de hebras se usan realmente en T(1). Hay más recursos?
 
+En nuestro caso, no ha habido diferencia. En ambos casos se ha podido observar en el monitor del sistema que 
+ambos programas, tanto el que usaba T.sec y T(1) consumian 1 hilo.
+
 6. **¿Porqué no mejora sustancialmente el Sp(4) respecto al Sp(2)?**
 
 - Ver la imagen generada. A cuantas hebras le ha tocado casi todo el trabajo para p=2 y p=4?
+
+Esto es debido a que tanto la parte superior como inferior de la imagen generada consiste de pocos colores, y por tanto los
+hilos que trabajan en esta parte no hacen casi diferencia respecto al tiempo final.
 
 7. **Describe que realiza el schedule(dynamic) y que chunk usa por defecto.**
 
@@ -207,11 +210,57 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
 - hasta que T(p).min sea similar a T(p).max
 
 ```
-maximo chunk = 1e5/2
-minimo chunk = 1
+Para p=2:
 
+Iteracion 1 -| maximo chunk = 1e5/2 = 50000
+             | minimo chunk = 1
+             | Tmax = 56,536s
+             | Tmin = 29,388s
 
+Iteracion 2 -| maximo chunk = 24999
+             | minimo chunk = 1     
+             | Tmax = 57,027s
+             | Tmin = 29,388s
+  
+Iteracion 3 -| maximo chunk = 12499
+             | minimo chunk = 1
+             | Tmax = 58,166s
+             | Tmin = 29,388s
 
+Iteracion 4 -| maximo chunk = 6249
+             | minimo chunk = 1
+             | Tmax = 58,077s
+             | Tmin = 29,388s
+
+Iteracion 5 -| maximo chunk = 3124
+             | minimo chunk = 1   
+             | Tmax = 57,120
+             | Tmin = 29,388s
+
+Iteracion 6 -| maximo chunk = 1561
+             | minimo chunk = 1  
+             | Tmax = 57,934s
+             | Tmin = 29,388s
+
+Iteracion 7 -| maximo chunk = 780
+             | minimo chunk = 1     
+             | Tmax = 58,151s
+             | Tmin = 29,388s
+
+Iteracion 8 -| maximo chunk = 389
+             | minimo chunk = 1     
+             | Tmax = 51,737s
+             | Tmin = 29,388s
+
+Iteracion 9 -| maximo chunk = 194
+             | minimo chunk = 1     
+             | Tmax = 39,392s
+             | Tmin = 29,388s
+
+Iteracion 10 -| maximo chunk = 96
+              | minimo chunk = 1     
+              | Tmax = 28,777s
+              | Tmin = 29,388s 
 ```
 
 
@@ -219,16 +268,38 @@ minimo chunk = 1
 
 | Ejecución | -mi 1e5 |
 | --------- | ------- |
-| Chuck p=2 |         |
-| Chunk p=4 |         |
-| T(2)      |         |
-| T(4)      |         |
-| Sp(2)     |         |
-| Sp(4)     |         |
+| Chuck p=2 | 96      |
+| Chunk p=4 | 47      |
+| T(2)      | 28,777s |
+| T(4)      | 15,107s |
+| Sp(2)     | 1.00941 |
+| Sp(4)     | 0.98339 |
+
+```
+Para p=4:
+
+Iteracion 1 -| maximo chunk = 1e5/2 = 50000
+             | minimo chunk = 1
+             | Tmax = 58,523s
+             | Tmin = 15,094s
+
+...
+
+Iteracion 10 -| maximo chunk = 47
+              | minimo chunk = 1     
+              | Tmax = 15,107s
+              | Tmin = 15,115s
+```
+
 
 14. **Explica el porqué de los resultados usando chunk y sin usarlo.**
 
+Por defecto si no especificamos chunk, se asigna el 1. Si nosotros modificamos ese valor hasta alcanzar un tiempo en el que
+se alcanze un valor optimo, podremos optimizar el bucle de gran manera gracias al chunk asignado.
+
 15. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+
+Si, todos los archivos innecesarios han sido eliminados.
 
 ---
 
