@@ -2,30 +2,25 @@
 
 # A rellenar por el alumno/grupo
 
-## Nombre y apellidos alumno 1 : < .... >
+## Nombre y apellidos alumno 1 : Anass El Jabiry Kaddir
 
-## Nombre y apellidos alumno 2 : < .... >
+## Nombre y apellidos alumno 2 : Daniel Pérez Valderde
 
-## Nombre y apellidos alumno 3 : < .... >
+## Mayoría en GTA1, GTA2 o GTA3 : GTA1
 
-## Mayoría en GTA1, GTA2 o GTA3 : < .... >
-
-## Nombre de grupo de actividades: < .... >
+## Nombre de grupo de actividades: 58
 
 # Descripción de la arquitectura utilizada:
 
 ## Arquitectura:
 
-- Microprocesador:
-- Número de núcleos:
-- Cantidad de subprocesos por nucleo:
-- Tiene hyperthreading (SMT) activado en BIOS:
-- HDD/SDD:
-- RAM:
-- Se usa máquina virtual:
-  - Número de cores:
-  - RAM:
-  - Capacidad HDD:
+- Microprocesador:``AMD Ryzen 7 5800X 8-Core Processor``
+- Número de núcleos:``8``
+- Cantidad de subprocesos por nucleo:``2``
+- Tiene hyperthreading (SMT) activado en BIOS:``No``
+- HDD/SDD:``931Gb``
+- RAM:``15Gb``
+- Se usa máquina virtual:``No``
 
 ## Instrucciones:
 
@@ -273,7 +268,16 @@ Por lo que si son distintos.
 
 **14. ¿Mejora el Sp(p)? ¿Porqué?**
 
-- Incluye y compara la salida de los rendimientos ( `$ perf stat -r 3 -ddd programa < parámetros >` usando o no collapse (2).
+- Incluye y compara la salida de los rendimientos ( `$ perf stat -r 3 -ddd programa < parámetros >` usando o no collapse (2).  
+  Collapse mejora el rendimiento al reducir la sobrecarga de la programación paralela y aumentar la granularidad de las iteraciones. Haciendo que mejore el Sp(p).
+
+### Sin collapase
+
+![Sin collapse(2)](./assets/sincollapse.png)
+
+### Con collapse
+
+![Con collapse(2)](./assets/concollapse.png)
 
 ## Experimentos con salida gráfica (-o España):
 
