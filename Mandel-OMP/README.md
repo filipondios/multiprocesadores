@@ -2,15 +2,13 @@
 
 # A rellenar por el alumno/grupo
 
-## Nombre y apellidos alumno 1 : < .... >
+## Nombre y apellidos alumno 1 : Daniel Pérez Valverde
 
-## Nombre y apellidos alumno 2 : < .... >
+## Nombre y apellidos alumno 2 : Anass El Jabiry Kaddir
 
-## Nombre y apellidos alumno 3 : < .... >
+## Mayoría en GTA1, GTA2 o GTA3 : GT3 y GT1 respectivamente
 
-## Mayoría en GTA1, GTA2 o GTA3 : < .... >
-
-## Nombre de grupo de actividades: < .... >
+## Nombre de grupo de actividades: Grupo 58
 
 # Descripción de la arquitectura utilizada:
 
@@ -172,7 +170,7 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
    | T(4)      | 1,547   | 14,856  |
    | Sp(1)     | 1,0175  | 1,0097  |
    | Sp(2)     | 1,99863 | 1,9659  |
-   | Sp(4)     | 3,78151 | 3,8439  |
+   | Sp(4)     | 3,7a8151 | 3,8439  |
 
 9. **Describe que realiza el schedule(guided) y que chunk usa por defecto.**
 
@@ -207,6 +205,15 @@ La opción **-o** genera la imagen, que debe ser correcta al visualizarse con el
     - max=med
   - Si no min=med
 - hasta que T(p).min sea similar a T(p).max
+
+```
+maximo chunk = 1e5/2
+minimo chunk = 1
+
+
+
+```
+
 
 13. **Rellena la siguiente tabla para el scheduler y chunk del punto anterior.**
 

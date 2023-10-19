@@ -218,10 +218,14 @@ int main(int argc, char **argv)
  gettimeofday(&tv1, &tz);
  # endif
 
-
- //TODO Parallelize with OpenMP # ifdef _OPENMP
- //Iterations per pixel
- for (int i=0;i<Rows;i++)
+    //TODO Parallelize with OpenMP 
+    #ifdef _OPENMP
+    #pragma omp parallel for\
+        default(none)\
+        shared(Rows, Cols, ppRed, ppBlue, ppGreen, MinX, MinY, MaxNIter, IncX, IncY)\
+        schedule(dynamic)
+    #endif
+    for (int i=0;i<Rows;i++)
      for (int j=0;j<Cols;j++)
          PixelMandel(ppRed, ppGreen,  ppBlue, 
                      MinX, MinY, IncX, IncY, MaxNIter, 
