@@ -263,7 +263,7 @@ int main(int argc, char **argv)
    pRandData = (struct drand48_data *)malloc(sizeof(struct drand48_data)*nthreads);
    // TODO: init seed for each  drand48_data using sdrand48_r(i,...), i=0..nthreads-1. See man pages.
    for(int i = 0; i < nthreads; i++)
-      sdrand48_r(i, &pRandData[i]);
+      srand48_r(i, &pRandData[i]);
 #endif
    
 
@@ -306,7 +306,7 @@ int main(int argc, char **argv)
    {
       // TODO Add pRandData parameter at the end
       IterateOcean(Ocean, Rows, Cols, SimIter, &NFishes, &NSharks,
-                   NiFBreed, NiSBreed, SiEnergy, SeFEnergy, &pRandData);
+                   NiFBreed, NiSBreed, SiEnergy, SeFEnergy, pRandData);
       SimIter++;
       if (Draw)
       {
@@ -350,6 +350,8 @@ int main(int argc, char **argv)
    FreeOcean(Ocean, Rows, Cols);
 
    // TODO Free mem for pRandData
+   free(pRandData);
+
 
    if (GenData == True)
    {
