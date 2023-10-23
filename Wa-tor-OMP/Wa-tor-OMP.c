@@ -260,8 +260,10 @@ int main(int argc, char **argv)
    // TODO Get the number of threads (nthreads)
    int nthreads = omp_get_num_threads();
    // TODO Get memory for pRandData, with size nthreads. Possible False Sharing.
-   pRandData = (struct drand48_data *)malloc(sizeof(nthreads));
+   pRandData = (struct drand48_data *)malloc(sizeof(struct drand48_data)*nthreads);
    // TODO: init seed for each  drand48_data using sdrand48_r(i,...), i=0..nthreads-1. See man pages.
+   for(int i = 0; i < nthreads; i++)
+      sdrand48_r(i, &pRandData[i]);
 #endif
    
 
@@ -304,7 +306,7 @@ int main(int argc, char **argv)
    {
       // TODO Add pRandData parameter at the end
       IterateOcean(Ocean, Rows, Cols, SimIter, &NFishes, &NSharks,
-                   NiFBreed, NiSBreed, SiEnergy, SeFEnergy);
+                   NiFBreed, NiSBreed, SiEnergy, SeFEnergy, &pRandData);
       SimIter++;
       if (Draw)
       {
