@@ -258,7 +258,7 @@ int main(int argc, char **argv)
 // TODO
 #ifdef _OPENMP
    // TODO Get the number of threads (nthreads)
-   int nthreads = omp_get_num_threads();
+   int nthreads = omp_get_max_threads();
    // TODO Get memory for pRandData, with size nthreads. Possible False Sharing.
    pRandData = (struct drand48_data *)malloc(sizeof(struct drand48_data)*nthreads);
    // TODO: init seed for each  drand48_data using sdrand48_r(i,...), i=0..nthreads-1. See man pages.

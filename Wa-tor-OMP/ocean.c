@@ -9,7 +9,7 @@
 #include <omp.h>
 #endif
 
-#define PRINT 0
+#define PRINT 1
 
 /*---------------------------------------------------------------------------*/
 void InitOcean(DataAnimal ***Ocean,
@@ -176,7 +176,7 @@ void IterateFish(DataAnimal ***Ocean,
         // TODO see your thread mum and use the correspondig pRandData
         // to get a random number with lrand48_r() instead of lrand48()
             int IDthread = omp_get_thread_num();
-            long int rand = 0;
+            long rand = 0;
             lrand48_r(&pRandData[IDthread], &rand);
             FreeXYIndex = rand % NFree;
         #endif
@@ -285,11 +285,11 @@ void IterateShark(DataAnimal ***Ocean,
     int FishX[4];              // x values of fish in neighbourg cells.
     int FishY[4];              // y values of fish in neighbourg cells.
     int NFoundFishes = 0;      // Number of neighbour fishes.
-    int FishXYIndex = 0;           // Index of the fish to move and eat, in [FishX][FishY]
+    int FishXYIndex;           // Index of the fish to move and eat, in [FishX][FishY]
     int FreeX[4];              // x values of free neighbourg cells.
     int FreeY[4];              // y values of free neighbourg cells.
     int NFree = 0;             // Number of neighboug free cells.
-    int FreeXYIndex = 0;           // Index of the cell to move, in [FishX][FishY]
+    int FreeXYIndex;           // Index of the cell to move, in [FishX][FishY]
 
 #if (PRINT == 2)
     printf("Shark %d, %d before moving. NiSBreed=%d -----------\n", i, j, NiSBreed);
@@ -335,7 +335,7 @@ void IterateShark(DataAnimal ***Ocean,
             // TODO see your thread num and use the correspondig pRandDat
             //  to get a random number with lrand48_r() instead of lrand48()
             int IDthread = omp_get_thread_num();
-            long int rand = 0;
+            long rand = 0;
             lrand48_r(&pRandData[IDthread], &rand);
             FishXYIndex = rand % NFoundFishes;
             #endif
@@ -398,9 +398,9 @@ void IterateShark(DataAnimal ***Ocean,
             // TODO see your thread mum and use the correspondig pRandData
             //  to get a random number with lrand48_r() instead of lrand48()
             int IDthread = omp_get_thread_num();
-            long int rand = 0;
+            long rand = 0;
             lrand48_r(&pRandData[IDthread], &rand);
-            FishXYIndex = rand % NFree;
+            FreeXYIndex = rand % NFree;
             #endif
             // TODO next is done only if #ifndef _OPENMP
             #ifndef _OPENMP
@@ -450,14 +450,14 @@ void IterateOcean(DataAnimal ***Ocean,
                   const int NiFBreed, const int NiSBreed,
                   const int SiEnergy, const int SeFEnergy, struct drand48_data *pRandData)
 {
-    int local_pNFishes = *pNFishes;
-    int local_pNSharks = *pNSharks;
+    int local_pNFishes = 0;
+    int local_pNSharks = 0;
 // TODO: Parallelize with OpenMP using a reduction(+:...)
-#pragma omp parallel for default(none) shared(Ocean, Rows, Cols, SimIter, pNFishes, pNSharks, NiFBreed, NiSBreed, SiEnergy, SeFEnergy, pRandData) reduction(+ : local_pNFishes, local_pNSharks)
-    for (int i = 0; i < Rows; i++)
-    {
-        for (int j = 0; j < Cols; j++)
-        {
+#ifdef _OPENMP 
+#pragma omp parallel for default(none) shared(Ocean, Rows, Cols, SimIter, NiFBreed, NiSBreed, SiEnergy, SeFEnergy, pRandData) reduction(+ : local_pNFishes, local_pNSharks)
+#endif
+    for (int i = 0; i < Rows; i++) {
+        for (int j = 0; j < Cols; j++) {
             if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == FISH)
                 // TODO Add pRandData parameters at the end
                 IterateFish(Ocean, Rows, Cols, i, j, SimIter,
