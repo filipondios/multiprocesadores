@@ -158,7 +158,8 @@ $ kill -9 <pid>
 
 - Usa `$ valgrind -s ./Wa-tor-OMP -ni xx`, con xx no muy grande, ya que tarda al coger y soltar muchas veces memoria. Si tienes perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.
 
-  No hay perdidad de memoria
+  Sí, se produce una pérdida de memoria, aunque es mínima. Esto ocurre a pesar de que se han generado los tres bucles dobles en iterateOcean() para evitar que distintos hilos modifiquen valores que no deben. Tras realizar algunas pruebas, se ha comprobado que la pérdida de memoria es mayor cuanto mayor número de hilos se ejecuta en el programa. Por ejemplo, para dos hilos:
+  
   ![ERROR SUMMARY](./assets/ERRORSUMMARY.png)
 
 2. **¿Se puede hablar de speed-up teórico, según la ley de Amdahl, si en cada ejecución la semilla de la secuencia pseudo-aleatoria se inicia a un número diferente? ¿Por qué?**
