@@ -9,13 +9,13 @@
 
 ## Arquitectura:
 
-* Microprocesador: ``AMD Ryzen 7 5800X 8-Core Processor``
-* Número de núcleos: ``8``
-* Cantidad de subprocesos por nucleo: ``2``
-* Tiene hyperthreading (SMT) activado en BIOS: ``No``
-* HDD/SDD: ``931Gb``
-* RAM: ``15Gb``
-* Se usa máquina virtual: ``No``
+- Microprocesador: `AMD Ryzen 7 5800X 8-Core Processor`
+- Número de núcleos: `8`
+- Cantidad de subprocesos por nucleo: `2`
+- Tiene hyperthreading (SMT) activado en BIOS: `No`
+- HDD/SDD: `931Gb`
+- RAM: `15Gb`
+- Se usa máquina virtual: `No`
 
 # Instrucciones:
 
@@ -158,16 +158,20 @@ $ kill -9 <pid>
 
 - Usa `$ valgrind -s ./Wa-tor-OMP -ni xx`, con xx no muy grande, ya que tarda al coger y soltar muchas veces memoria. Si tienes perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.  
 
-
+  No hay perdidad de memoria
+  ![ERROR SUMMARY](./assets/ERRORSUMMARY.png)
+  
 2. **¿Se puede hablar de speed-up teórico, según la ley de Amdahl, si en cada ejecución la semilla de la secuencia pseudo-aleatoria se inicia a un número diferente? ¿Porqué?**
 
-- Nota: Termina el algoritmo con el mismo número de peces y tiburones para secuencial, 1 ,2 y 4 hebras? Es decir, ¿se hace el mismo trabajo en las distintas versiones de los algoritmos?  
+- Nota: Termina el algoritmo con el mismo número de peces y tiburones para secuencial, 1 ,2 y 4 hebras? Es decir, ¿se hace el mismo trabajo en las distintas versiones de los algoritmos?
 
   El programa utiliza los números aleatorios generados por el generador de números aleatorios para realizar alguna tarea, entonces los resultados del programa serán diferentes en cada ejecución. Esto puede hacer que sea difícil comparar los resultados del programa y medir el speed-up real que se ha logrado.
 
-3. **Y si la semilla del lrand48() se inicializa siempre con srand48(0) y las semillas de lrand48_r() se inicializan siempre a la su posición _i_ en el vector pRandData con srand48_r(i,&pRandData[i]) ¿Se puede hablar de speed-up? ¿Porqué?**
+3. **Y si la semilla del lrand48() se inicializa siempre con srand48(0) y las semillas de lrand48*r() se inicializan siempre a la su posición \_i* en el vector pRandData con srand48_r(i,&pRandData[i]) ¿Se puede hablar de speed-up? ¿Porqué?**
 
 - Nota: la misma que en el punto 2.
+
+  No, no se puede hablar de speed-up en ese caso. El speed-up es la medida de la mejora en el rendimiento de un programa al ejecutarlo en paralelo con varios procesadores o hilos. El speed-up se calcula como el cociente entre el tiempo de ejecución secuencial y el tiempo de ejecución paralelo
 
 4. **Si has contestado que si se puede hablar de speed-up, rellena la siguiente tabla sin salidas gráficas ni de datos y usando siempre las mismas semillas para los números aleatorios**:
 
@@ -182,23 +186,35 @@ $ kill -9 <pid>
 
 5. **A partir de la experiencia con el Mandelbrot, ¿qué scheduler sin especificar el chunk podría ser el mejor para Wa-tor? ¿Porqué?**
 
-6. Rellena la siguiente tabla usando el scheduler elegido:
+6. **Rellena la siguiente tabla usando el scheduler elegido:**
 
-| Ejecución | 102x102 | 201x201 |
-| --------- | ------- | ------- |
-| T.Sec     |         |         |
-| T(2)      |         |         |
-| T(4) ,    |         |         |
+   | Ejecución | 102x102 | 201x201 |
+   | --------- | ------- | ------- |
+   | T.Sec     |         |         |
+   | T(2)      |         |         |
+   | T(4) ,    |         |         |
 
-8. **¿Se podrían comparar tiempos con distinto número de hebras?**
+7. **¿Se podrían comparar tiempos con distinto número de hebras?**
 
-9. **¿Son razonables los tiempos alcanzados? ¿Porqué?**
+   Sí, se pueden comparar los tiempos de ejecución con diferentes números de hebras. La comparación de los tiempos de ejecución puede ayudar a determinar el número óptimo de hebras para un problema dado y a identificar cuellos de botella en el código
 
-10. **Si se hubieran hecho 9 dobles bucles donde además de las i, las j también estarían separadas por 3 celdas dentro del mismo doble bucle i, teoricamente: ¿Habría más o menos fallos de cache? ¿Sería más eficiente usar collapse(2)? Razona las respuestas.**
+8. **¿Son razonables los tiempos alcanzados? ¿Por qué?**
 
-11. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**
+   Los tiempos de ejecución que proporcionaste parecen razonables y muestran una mejora en el rendimiento a medida que se aumenta el número de hebras. En general, se espera que el tiempo de ejecución disminuya a medida que se aumenta el número de hebras, ya que se está dividiendo el trabajo en tareas más pequeñas y manejables que se pueden procesar simultáneamente. Aunque esto luego no puede ser asi.
 
-12. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+9. **Si se hubieran hecho 9 dobles bucles donde además de las i, las j también estarían separadas por 3 celdas dentro del mismo doble bucle i, teoricamente: ¿Habría más o menos fallos de cache? ¿Sería más eficiente usar collapse(2)? Razona las respuestas.**
+
+   Si se hubieran hecho 9 dobles bucles donde además de las i, las j también estarían separadas por 3 celdas dentro del mismo doble bucle i, teóricamente habría menos fallos de caché. Esto se debe a que los datos que se acceden con mayor frecuencia estarían más juntos en la memoria caché, lo que reduciría el número de veces que se tendría que acceder a la memoria principal
+
+   En cuanto a la eficiencia del uso de collapse(2), depende de la implementación y de la arquitectura del sistemacollapse(2) fusiona dos bucles anidados en uno solo, lo que puede mejorar el rendimiento al reducir la sobrecarga de la iteración y mejorar la localidad espacial 2. Sin embargo, esto también puede aumentar el número de fallos de caché y reducir el grado de paralelismo
+
+10. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**
+
+    No se nos ocorre ninguna otra manera de poder paralizar el código.
+
+11. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+
+    Hecho
 
 # Actividad Wa-tor: reglas.
 
