@@ -186,13 +186,16 @@ $ kill -9 <pid>
 
 5. **A partir de la experiencia con el Mandelbrot, ¿qué scheduler sin especificar el chunk podría ser el mejor para Wa-tor? ¿Porqué?**
 
+El mejor scheduler será dynamic, ya que el trabajo no se distribuye de manera uniforme entre los hilos. En este caso,
+el trabajo a distribuir serán los calculos realizados en los bucles de iterateOcean().
+
 6. **Rellena la siguiente tabla usando el scheduler elegido:**
 
    | Ejecución | 102x102 | 201x201 |
    | --------- | ------- | ------- |
-   | T.Sec     |         |         |
-   | T(2)      |         |         |
-   | T(4)      |         |         |
+   | T.Sec     | 1,385   | 6,117   |
+   | T(2)      | 0,813   | 3,990   |
+   | T(4)      | 0,634   | 2,992   |
 
 7. **¿Se podrían comparar tiempos con distinto número de hebras?**
 
