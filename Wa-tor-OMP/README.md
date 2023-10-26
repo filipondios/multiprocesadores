@@ -156,22 +156,22 @@ $ kill -9 <pid>
 
 1. **¿Tiene el algoritmo paralelo perdidas de memoria (memory leaks)?**
 
-- Usa `$ valgrind -s ./Wa-tor-OMP -ni xx`, con xx no muy grande, ya que tarda al coger y soltar muchas veces memoria. Si tienes perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.  
+- Usa `$ valgrind -s ./Wa-tor-OMP -ni xx`, con xx no muy grande, ya que tarda al coger y soltar muchas veces memoria. Si tienes perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.
 
   No hay perdidad de memoria
   ![ERROR SUMMARY](./assets/ERRORSUMMARY.png)
-  
-2. **¿Se puede hablar de speed-up teórico, según la ley de Amdahl, si en cada ejecución la semilla de la secuencia pseudo-aleatoria se inicia a un número diferente? ¿Porqué?**
+
+2. **¿Se puede hablar de speed-up teórico, según la ley de Amdahl, si en cada ejecución la semilla de la secuencia pseudo-aleatoria se inicia a un número diferente? ¿Por qué?**
 
 - Nota: Termina el algoritmo con el mismo número de peces y tiburones para secuencial, 1 ,2 y 4 hebras? Es decir, ¿se hace el mismo trabajo en las distintas versiones de los algoritmos?
 
-  El programa utiliza los números aleatorios generados por el generador de números aleatorios para realizar alguna tarea, entonces los resultados del programa serán diferentes en cada ejecución. Esto puede hacer que sea difícil comparar los resultados del programa y medir el speed-up real que se ha logrado.
+  Si se puede hablar de speed-up teórico, porque la semilla de los números aleatorios no altera la fracción secuencial del programa.
 
-3. **Y si la semilla del lrand48() se inicializa siempre con srand48(0) y las semillas de lrand48*r() se inicializan siempre a la su posición \_i* en el vector pRandData con srand48_r(i,&pRandData[i]) ¿Se puede hablar de speed-up? ¿Porqué?**
+3. **Y si la semilla del lrand48() se inicializa siempre con srand48(0) y las semillas de lrand48*r() se inicializan siempre a la su posición \_i* en el vector pRandData con srand48_r(i,&pRandData[i]) ¿Se puede hablar de speed-up? ¿Por qué?**
 
 - Nota: la misma que en el punto 2.
 
-  No, no se puede hablar de speed-up en ese caso. El speed-up es la medida de la mejora en el rendimiento de un programa al ejecutarlo en paralelo con varios procesadores o hilos. El speed-up se calcula como el cociente entre el tiempo de ejecución secuencial y el tiempo de ejecución paralelo
+  No, no se puede hablar de speed-up en ese caso. El speed-up es la medida de la mejora en el rendimiento de un programa al ejecutarlo en paralelo con varios procesadores o hilos. El speed-up se calcula como el cociente entre el tiempo de ejecución secuencial y el tiempo de ejecución paralelo.
 
 4. **Si has contestado que si se puede hablar de speed-up, rellena la siguiente tabla sin salidas gráficas ni de datos y usando siempre las mismas semillas para los números aleatorios**:
 
@@ -192,7 +192,7 @@ $ kill -9 <pid>
    | --------- | ------- | ------- |
    | T.Sec     |         |         |
    | T(2)      |         |         |
-   | T(4) ,    |         |         |
+   | T(4)      |         |         |
 
 7. **¿Se podrían comparar tiempos con distinto número de hebras?**
 
@@ -206,7 +206,7 @@ $ kill -9 <pid>
 
    Si se hubieran hecho 9 dobles bucles donde además de las i, las j también estarían separadas por 3 celdas dentro del mismo doble bucle i, teóricamente habría menos fallos de caché. Esto se debe a que los datos que se acceden con mayor frecuencia estarían más juntos en la memoria caché, lo que reduciría el número de veces que se tendría que acceder a la memoria principal
 
-   En cuanto a la eficiencia del uso de collapse(2), depende de la implementación y de la arquitectura del sistemacollapse(2) fusiona dos bucles anidados en uno solo, lo que puede mejorar el rendimiento al reducir la sobrecarga de la iteración y mejorar la localidad espacial 2. Sin embargo, esto también puede aumentar el número de fallos de caché y reducir el grado de paralelismo
+   En cuanto a la eficiencia del uso de collapse(2), fusiona dos bucles anidados en uno solo, lo que puede mejorar el rendimiento al reducir la sobrecarga de la iteración y mejorar la localidad espacial 2. Sin embargo, esto también puede aumentar el número de fallos de caché y reducir el grado de paralelismo
 
 10. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**
 
