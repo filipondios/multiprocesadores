@@ -452,27 +452,73 @@ void IterateOcean(DataAnimal ***Ocean,
 {
     int local_pNFishes = 0;
     int local_pNSharks = 0;
-// TODO: Parallelize with OpenMP using a reduction(+:...)
-#ifdef _OPENMP 
-#pragma omp parallel for default(none) shared(Ocean, Rows, Cols, SimIter, NiFBreed, NiSBreed, SiEnergy, SeFEnergy, pRandData) reduction(+ : local_pNFishes, local_pNSharks)
-#endif
-    for (int i = 0; i < Rows; i++) {
-        for (int j = 0; j < Cols; j++) {
-            if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == FISH)
-                // TODO Add pRandData parameters at the end
-                IterateFish(Ocean, Rows, Cols, i, j, SimIter,
-                            &local_pNFishes, NiFBreed, pRandData);
-            if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == SHARK)
-                // TODO Add pRandData  parameters at the end
-                IterateShark(Ocean, Rows, Cols, i, j, SimIter,
-                             &local_pNFishes, &local_pNSharks, NiSBreed,
-                             SiEnergy, SeFEnergy, pRandData);
-        }
+
+  // TODO: Parallelize with OpenMP using a reduction(+:...)
+  #ifdef _OPENMP
+    #pragma omp parallel\
+    shared(Ocean, Rows, Cols, SimIter, NiFBreed, NiSBreed, SiEnergy, SeFEnergy, pRandData)\
+    reduction(+ : local_pNFishes, local_pNSharks)
+  #endif 
+  {
+    #ifdef _OPENMP
+      #pragma omp for
+    #endif
+    for (int i=0; i<Rows; i+=3) {
+      for (int j=0; j<Cols; j++) {
+        if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == FISH)
+          // TODO Add pRandData parameters at the end
+          IterateFish(Ocean, Rows, Cols, i, j, SimIter,
+            &local_pNFishes, NiFBreed, pRandData);
+            
+        if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == SHARK)
+          // TODO Add pRandData  parameters at the end
+          IterateShark(Ocean, Rows, Cols, i, j, SimIter,
+            &local_pNFishes, &local_pNSharks, NiSBreed,
+            SiEnergy, SeFEnergy, pRandData);
+      }
     }
 
-    // Asignar los valores locales actualizados a las variables originales
-    *pNFishes += local_pNFishes;
-    *pNSharks += local_pNSharks;
+    #ifdef _OPENMP
+      #pragma omp for
+    #endif
+    for (int i=1; i<Rows; i+=3) {
+      for (int j=0; j<Cols; j++) {
+        if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == FISH)
+          // TODO Add pRandData parameters at the end
+          IterateFish(Ocean, Rows, Cols, i, j, SimIter,
+            &local_pNFishes, NiFBreed, pRandData);
+            
+        if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == SHARK)
+          // TODO Add pRandData  parameters at the end
+          IterateShark(Ocean, Rows, Cols, i, j, SimIter,
+            &local_pNFishes, &local_pNSharks, NiSBreed,
+            SiEnergy, SeFEnergy, pRandData);
+      }
+    }
+
+    #ifdef _OPENMP
+      #pragma omp for
+    #endif
+    for (int i=2; i<Rows; i+=3) {
+      for (int j=0; j<Cols; j++) {
+        if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == FISH)
+          // TODO Add pRandData parameters at the end
+          IterateFish(Ocean, Rows, Cols, i, j, SimIter,
+            &local_pNFishes, NiFBreed, pRandData);
+            
+        if (Ocean[i][j] != NULL && Ocean[i][j]->Animal == SHARK)
+          // TODO Add pRandData  parameters at the end
+          IterateShark(Ocean, Rows, Cols, i, j, SimIter,
+            &local_pNFishes, &local_pNSharks, NiSBreed,
+            SiEnergy, SeFEnergy, pRandData);
+      }
+    }
+  }
+    
+  // Asignar los valores locales actualizados a las variables
+  // originales
+  *pNFishes += local_pNFishes;
+  *pNSharks += local_pNSharks;
 }
 
 /*---------------------------------------------------------------------------*/
