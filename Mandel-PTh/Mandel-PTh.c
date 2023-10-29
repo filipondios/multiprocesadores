@@ -9,7 +9,6 @@
 #include "utils.h"
 #include "stdbool.h"
 
-
 #define PRINT 0
 #define DEGUG 0
 
@@ -27,7 +26,7 @@ typedef struct th_mandel_args {
    int*		pChunckSize;	//How many to process.
    int		Rows;
    int		Cols;
-   pthread_mutex_t * pth_RowToProcess_mutex;
+   pthread_mutex_t* pth_RowToProcess_mutex;
    int 		ThreadId;
    #if (DEGUG==1)
    int 		NRowsDone; 		//How many rows were done by this thread.
@@ -105,16 +104,22 @@ void * Th_Mandel (void * pTh_Args) {
    //Following is updated in mutual exclusion.
    int MyRow=0; 
    int MyChunckSize=1; //Rows may be not multiple of NThreads.
- 
+
    while (*(pMyData->pRowToProcess)< Rows) {
       //TODO: lock mutex to get MyRow -> Row to process
+      pthread_mutex_lock(pMyData->pth_RowToProcess_mutex);
+
       if (*(pMyData->pRowToProcess) < pMyData->Rows) {
          //TODO: Set MyRow
+         MyRow = *pRowToProcess;
          //TODO: Set MyChunkSize without reach Rows 
+         MyChunckSize = *pMyData->pChunckSize;
          //TODO: Increase (*pRowToProcess)
+         *pRowToProcess += MyChunckSize;
       }
       
       //TODO: unlock  mutex
+      pthread_mutex_unlock(pMyData->pth_RowToProcess_mutex);
 
       #if (PRINT==1)  
       printf("Thread %d, doing rows %d-%d.\n", 
@@ -126,10 +131,10 @@ void * Th_Mandel (void * pTh_Args) {
          for (int j=0; j < Cols; j++) {
             PixelMandel(pMyData->ppRed, 
                pMyData->ppGreen, 
-                        pMyData->ppBlue,
-                        pMyData->MinX, pMyData->MinY, 
-                        pMyData->IncX, pMyData->IncY,
-                        pMyData->MaxNIter, i, j);
+               pMyData->ppBlue,
+               pMyData->MinX, pMyData->MinY, 
+               pMyData->IncX, pMyData->IncY,
+               pMyData->MaxNIter, i, j);
          }
       }
       #if (DEGUG==1)
@@ -273,7 +278,7 @@ int main(int argc, char **argv) {
  
    /* Initialize mutex object*/
    pthread_mutex_init(&pth_RowToProcess_mutex, NULL);
- 
+
    //Get mem for threads
    pThreads = (pthread_t *) GetMem(NThreads, sizeof(pthread_t), 
                                  "Main: pThreads");
@@ -324,6 +329,7 @@ int main(int argc, char **argv) {
    //I (main) thread number 0 also run.
    //pThreads[0] is not used.
    //TODO: Run Th_Mandel() here for the main thread
+   Th_Mandel((void *)&pTh_Args[0]);
 
    //We wait for NThreads-1 to end
    for (int t=1; t<NThreads; t++) {
@@ -339,7 +345,6 @@ int main(int argc, char **argv) {
       fflush(stdout);
       #endif
    }
-
 
    if (GenImage) { 
 	   //Write to the output file
