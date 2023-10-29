@@ -144,7 +144,7 @@ int main(int argc, char **argv) {
       //Each pixel is visited just once.
       
       /* Trabajo por cada hilo (Filas) */
-      int rowsPerThr = Rows / NThreads;
+      int rowsPerThr = Rows/NThreads;
 
       /* Cantidad de filas totales */
       pTh_Args[t].Rows = Rows;
