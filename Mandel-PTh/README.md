@@ -81,10 +81,10 @@ $ ./Mandel-PTh -h
 
 | Ejecución   | -mi 1e4         | -mi 1e5           |
 | ----------- | --------------- | ----------------- |
-|T.Sec        |                 |                   |
-|T.CsPar      |                 |                   |
-|SpA(2)       |                 |                   |
-|SpA(4)       |                 |                   |
+|T.Sec        | 11.543s         | 115.370s          |
+|T.CsPar      | 11.535s         | 115.362s          |
+|SpA(2)       | 1.99861483854212| 1.99986132538266  |
+|SpA(4)       | 3.99170052736233| 3.99916806766383  |
 
 donde
  * T.Sec: El wall-clock time (tiempo total) del programa secuencial. Parte real del $time Mandel ... 
@@ -102,25 +102,25 @@ donde
 
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
-|T.Sec        |                 |                 | 
-|T(1)         |                 |                 | 
-|T(2)         |                 |                 | 
-|T(4)         |                 |                 | 
-|Sp(1)        |                 |                 | 
-|Sp(2)        |                 |                 | 
-|Sp(4)        |                 |                 |
+|T.Sec        | 11.543s         | 115.370s        | 
+|T(1)         | 11.939s         | 107.908s        | 
+|T(2)         | 5.189s          | 51.196s         | 
+|T(4)         | 2.756s          | 26.145s         | 
+|Sp(1)        | 0.96683139291397| 1.06915149942544| 
+|Sp(2)        | 2.22451339371748| 2.25349636690366| 
+|Sp(4)        | 4.18831640058055| 4.41269841269841|
 
 3. **Con -cs Rows/NThreads. Distribución estática.**
 
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
-|T.Sec        |                 |                 | 
-|Chuck p=2    |                 |                 |
-|Chunk p=4    |                 |                 |
-|T(2)         |                 |                 | 
-|T(4)         |                 |                 | 
-|Sp(2)        |                 |                 | 
-|Sp(4)        |                 |                 | 
+|T.Sec        | 11.761s         | 117.201s        | 
+|Chunk p=2    | 9.954s          |                 |
+|Chunk p=4    | 10.112s         |                 |
+|T(2)         | 5.187s          | 50.182s         | 
+|T(4)         | 5.021s          | 49.870s         |
+|Sp(2)        | 2.26739926739927| 2.33551871188873|
+|Sp(4)        | 2.34236207926708| 2.35013033888109|
 
 
 4. **Con el mejor valor encontrado para -cs.**
@@ -133,7 +133,22 @@ donde
     - Si T(p).min < T(p).max
        + max=med
     - Si no min=med
-* hasta que T(p).min sea similar a T(p).max
+* hasta que T(p).min sea similar a T(p).max  
+
+chunk max = 1024 / 2 = 512  
+chunk min = 1  
+chunk med = (512 - 1) / 2 = 256  
+T(p).max = 49.731s  
+T(p).min = 49.591s  
+T(p).med = 49.731s  
+
+chunk max = 1024 / 2 = 256  
+chunk min = 1  
+chunk med = (512 - 1) / 2 = 256  
+T(p).max = 49.731s  
+T(p).min = 49.591s  
+T(p).med = 49.731s  
+
 
 | Ejecución   | -mi 1e5         |
 | ----------- | --------------- | 
@@ -150,17 +165,20 @@ donde
  + **¿Cual es mejor?**
  + **¿Son los chunks OMP y PTh distintos (indica sus valores)?**
 
-6. **Indica al número de filas que realiza cada hebra para una ejecución con p=4 de la tabla en el punto 4.**
-    - **¿Difieren los números de filas realizadas por cada hebra de una ejecución a otra? ¿Porqué?**
-    - **¿Es el número de filas realizado por las hebras de una ejecución similar? ¿Porqué?**
-
+6. **Indica al número de filas que realiza cada hebra para una ejecución con p=4 de la tabla en el punto 4.**  
+El numero de filas que hace cada hebra es de 1024 / 4 = 256
+    - **¿Difieren los números de filas realizadas por cada hebra de una ejecución a otra? ¿Por qué?**  
+    Los números de filas realizadas por cada hebra pueden diferir en diferentes ejecuciones si el usuario elige ajustar el valor de ChunckSize a través de la línea de comandos.
+    - **¿Es el número de filas realizado por las hebras de una ejecución similar? ¿Por qué?**  
+    Si ChunckSize no es un divisor exacto del número total de filas pueden terminar ejecutando diferentes numero de filas. Pero si la divisor es exacto si pueden ser similares.
 
 7. **En vez de solo por filas, se podría haber paralelizado por pixeles. Teóricamente, ¿sería más efectivo? ¿Cuando y porqué?** 
-* Para ello, el pixel donde empezar se numera de 0 a (Rows * Cols)-1. Para pasar de número de pixel a posición [i][[j] se puede usar la rutina VectorToMatrixInd() que se encuentra en el fichero Indexes-Vector-Matrix.c, y este en Rutines-PTh.tgz, que está en el aula virtual de la asignatura. Solo habría que usar VectorToMatrixInd() para el primer pixel del chunk, ya que los demás se pueden saber teniendo en cuenta Rows, Cols y el ChunkSize.
+* Para ello, el pixel donde empezar se numera de 0 a (Rows * Cols)-1. Para pasar de número de pixel a posición [i][j] se puede usar la rutina VectorToMatrixInd() que se encuentra en el fichero Indexes-Vector-Matrix.c, y este en Rutines-PTh.tgz, que está en el aula virtual de la asignatura. Solo habría que usar VectorToMatrixInd() para el primer pixel del chunk, ya que los demás se pueden saber teniendo en cuenta Rows, Cols y el ChunkSize.  
 
+   En resumen, paralelizar por píxeles utilizando un método que mapea números de píxeles a posiciones [i][j] con la rutina VectorToMatrixInd() puede ser efectivo ya que se cumple la independencia de pixeles.
 
-8. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
-
+8. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**  
+Hecho
 
 - - -
 ### Cómo ver este .md 
