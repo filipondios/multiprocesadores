@@ -155,7 +155,7 @@ Donde
    - (\*,ciclica),
    - (ciclica,ciclica).
 
-   Hemos utilizado (bloque, \*) en que cada hilo se encarga de un bloque de fila y todas las columnas de ese rango.
+   Hemos utilizado (bloque, \*) en el que cada hilo se encarga de un bloque de fila y todas las columnas de ese rango.
 
 5. **¿Son el tiempo secuencial y el paralelo con una hebra diferentes? ¿Por qué?**  
    El tiempo es diferente porque pThreads esta muy optimizado al sistema, además de ser nativa de Linux.
