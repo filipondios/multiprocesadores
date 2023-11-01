@@ -149,12 +149,12 @@ donde
 
 | p = 4       |                                                                                            |
 | ----------- | ------------------------------------------------------------------------------------------ |
-| Iteracion 1 | máximo chunk = 1040 / 2 = 512<br>minimo chunk = 1<br>Tmax = 50.851s<br>Tmin = 25.840s      |
-| Iteracion 2 | máximo chunk = (512 - 1) / 2 = 255<br>minimo chunk = 1<br>Tmax = 51.096s<br>Tmin = 25.840s |
+| Iteración 1 | máximo chunk = 1040 / 2 = 512<br>minimo chunk = 1<br>Tmax = 50.851s<br>Tmin = 25.840s      |
+| Iteración 2 | máximo chunk = (512 - 1) / 2 = 255<br>minimo chunk = 1<br>Tmax = 51.096s<br>Tmin = 25.840s |
 | Iteración 3 | máximo chunk = (255 - 1) / 2 = 127<br>minimo chunk = 1<br>Tmax = 43.704s<br>Tmin = 25.840s |
-|             | máximo chunk = (127 - 1) / 2 = 63<br>minimo chunk = 1 <br>Tmax = 27.676s<br>Tmin = 25.840s |
-|             | máximo chunk = (63- 1) / 2 = 31 <br>minimo chunk = 1 <br>Tmax = 28.159s<br>Tmin = 25.840s  |
-|             | máximo chunk = (31- 1) / 2 = 15 <br>minimo chunk = 1 <br>Tmax = 25.825s<br>Tmin = 25.840s  |
+| Iteración 4 | máximo chunk = (127 - 1) / 2 = 63<br>minimo chunk = 1 <br>Tmax = 27.676s<br>Tmin = 25.840s |
+| Iteración 5 | máximo chunk = (63- 1) / 2 = 31 <br>minimo chunk = 1 <br>Tmax = 28.159s<br>Tmin = 25.840s  |
+| Iteración 6 | máximo chunk = (31- 1) / 2 = 15 <br>minimo chunk = 1 <br>Tmax = 25.825s<br>Tmin = 25.840s  |
 
 | Ejecución | -mi 1e5  |
 | --------- | -------- |
@@ -163,13 +163,19 @@ donde
 | Chunk p=4 | 15       |
 | T(2)      | 49.639s  |
 | T(4)      | 25.825s  |
-| Sp(2)     | 2.3610669|
-| Sp(4)     | 4.5382768|
+| Sp(2)     | 2.361066 |
+| Sp(4)     | 4.538276 |
 
 5. **Compara el mejor Sp(4) para -mi 1e5 de Mandel-OMP con schedule dynamic y el mejor chunk encontrado con Mandel-PTh del punto 4.**
 
-- **¿Cual es mejor?**
-- **¿Son los chunks OMP y PTh distintos (indica sus valores)?**
+- **¿Cual es mejor?**  
+Por tiempo es mejor OMP
+- **¿Son los chunks OMP y PTh distintos (indica sus valores)?** 
+ 
+  |           	| OMP 	| PTh 	|
+  |-----------	|-----	|-----	|
+  | chunk p=2 	| 96  	| 127 	|
+  | chunk p=4 	| 47  	| 15  	|
 
 6. **Indica al número de filas que realiza cada hebra para una ejecución con p=4 de la tabla en el punto 4.**  
    El numero de filas que hace cada hebra es de 1024 / 4 = 256 - **¿Difieren los números de filas realizadas por cada hebra de una ejecución a otra? ¿Por qué?**  
