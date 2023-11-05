@@ -115,6 +115,7 @@ void Th_IterateRows(void * pTh_Args, int *pLocalNFishes, int *pLocalNSharks) {
 
 /*---------------------------------------------------------------------------*/
 void *Th_IterateOcean(void * pTh_Args) {
+
   //Local variables are local to each thread.
   Type_Th_Wator_Args * pMyData;
   int LocalNFishes; 
@@ -126,8 +127,9 @@ void *Th_IterateOcean(void * pTh_Args) {
 		//------------------------------------------
 		//All threads synchronise before each iteration. 
 		//Main thread set before RowToProcess=0. 
-		pthread_barrier_wait(pMyData->pth_NextIter_Starts_barrier);
-		
+    pthread_barrier_wait(pMyData->pth_NextIter_Starts_barrier);
+
+
 		#if (PRINT==1)
 		printf("Th %d after NextIter Starts barrier. "
                "SimIter=%d, RowToProcess=%d\n", 
@@ -153,10 +155,8 @@ void *Th_IterateOcean(void * pTh_Args) {
 		Th_IterateRows(pTh_Args, &LocalNFishes, &LocalNSharks);
 		
 		//TODO Wait all threads ends. 
-		//RowToProcess>Rows. But some threads may still works
-	  pthread_barrier_wait(pMyData->pth_NextIter_Ends_barrier);
-    if(*(pMyData->pRowToProcess) > pMyData->Rows)
-      break;
+		//RowToProcess>Rows. But some threads may still be working
+    pthread_barrier_wait(pMyData->pth_Loop_Ends_barrier);
 
 		//------------------------------------------
 		//First thread set RowToProcess=1 before next loop.
@@ -183,8 +183,6 @@ void *Th_IterateOcean(void * pTh_Args) {
 		//TODO Wait all threads ends. 
 		//RowToProcess>Rows. But some threads may still works
     pthread_barrier_wait(pMyData->pth_NextIter_Ends_barrier);
-    if(*(pMyData->pRowToProcess) > pMyData->Rows)
-      break;
 
 		//------------------------------------------ 
 		//Previous loop ends.
