@@ -63,70 +63,69 @@ void ParametersError()
 }
 
 /*---------------------------------------------------------------------------*/
-void Th_IterateRows(void * pTh_Args, int *pLocalNFishes, int *pLocalNSharks)
-{
- Type_Th_Wator_Args * pMyData;
- pMyData=(Type_Th_Wator_Args *) pTh_Args;
- int MyRow=pMyData->Rows; //Set to something impossible
+void Th_IterateRows(void * pTh_Args, int *pLocalNFishes, int *pLocalNSharks) {
+  Type_Th_Wator_Args * pMyData;
+  pMyData=(Type_Th_Wator_Args *) pTh_Args;
+  int MyRow=pMyData->Rows; //Set to something impossible
 
- while (*(pMyData->pRowToProcess)< pMyData->Rows)
-	   {
-        MyRow=pMyData->Rows; //Set to something impossible
+  while (*(pMyData->pRowToProcess)< pMyData->Rows) {
+    MyRow=pMyData->Rows; //Set to something impossible
 
 		//TODO Lock Mutex to update pRowToProcess
+    pthread_mutex_lock(pMyData->pth_RowToProcess_mutex);
 
-        if (*(pMyData->pRowToProcess) < pMyData->Rows)
-           {
-            MyRow  =  *(pMyData->pRowToProcess); //Get the Row.
-            #if (PRINT==1)
-			 printf("Th %d SimIter=%d, RowToProcess=%d\n", 
-			 pMyData->ThreadId,*(pMyData->pSimIter), *(pMyData->pRowToProcess));
-			 fflush(stdout);
-		    #endif
-           *(pMyData->pRowToProcess)+=3; //To avoid race conditions
-           }
-		//TODO Unlock mutex after udating pRowToProcess
+    if (*(pMyData->pRowToProcess) < pMyData->Rows) {
+      MyRow  =  *(pMyData->pRowToProcess); //Get the Row.
+      
+      #if (PRINT==1)
+			printf("Th %d SimIter=%d, RowToProcess=%d\n", 
+			pMyData->ThreadId,*(pMyData->pSimIter), *(pMyData->pRowToProcess));
+			fflush(stdout);
+		  #endif
+      
+      *(pMyData->pRowToProcess)+=3; //To avoid race conditions
+    }
+		
+    //TODO Unlock mutex after udating pRowToProcess
+    pthread_mutex_unlock(pMyData->pth_RowToProcess_mutex);
 
-
-		if (MyRow < pMyData->Rows)
-		   {
-		    for (int j=0; j<pMyData->Cols; j++)
-			    {
-		         if (pMyData->Ocean[MyRow][j]!=NULL && 
-		             pMyData->Ocean[MyRow][j]->Animal==FISH)
-			         IterateFish(pMyData->Ocean,pMyData->Rows,pMyData->Cols,
-			                     MyRow,j,*(pMyData->pSimIter),
-			                     pLocalNFishes,pMyData->NiFBreed,
-			                     pMyData->pRandData);
-
-		         if (pMyData->Ocean[MyRow][j]!=NULL && 
-		             pMyData->Ocean[MyRow][j]->Animal==SHARK)
-			        IterateShark(pMyData->Ocean,pMyData->Rows,pMyData->Cols,
-			                     MyRow,j,*(pMyData->pSimIter),
-				                 pLocalNFishes, pLocalNSharks, pMyData->NiSBreed,
-				                pMyData->SiEnergy, pMyData->SeFEnergy,
-				                pMyData->pRandData);
-			    }
-		   }
-	   }
+		if (MyRow < pMyData->Rows) {
+		  for (int j=0; j<pMyData->Cols; j++) {
+		    
+        if (pMyData->Ocean[MyRow][j]!=NULL 
+            && pMyData->Ocean[MyRow][j]->Animal==FISH) {
+			    IterateFish(pMyData->Ocean,pMyData->Rows,pMyData->Cols,
+			                MyRow,j,*(pMyData->pSimIter),
+			                pLocalNFishes,pMyData->NiFBreed,
+			                pMyData->pRandData);
+        }
+		    
+        if (pMyData->Ocean[MyRow][j]!=NULL && 
+            pMyData->Ocean[MyRow][j]->Animal==SHARK){
+          IterateShark(pMyData->Ocean,pMyData->Rows,pMyData->Cols,
+			                 MyRow,j,*(pMyData->pSimIter),
+				               pLocalNFishes, pLocalNSharks, pMyData->NiSBreed,
+				               pMyData->SiEnergy, pMyData->SeFEnergy,
+				               pMyData->pRandData);
+        }
+			}
+		}
+	}
 }
 
 /*---------------------------------------------------------------------------*/
-void *Th_IterateOcean(void * pTh_Args)
-{
- //Local variables are local to each thread.
- Type_Th_Wator_Args * pMyData;
- int LocalNFishes; 
- int LocalNSharks; 
+void *Th_IterateOcean(void * pTh_Args) {
+  //Local variables are local to each thread.
+  Type_Th_Wator_Args * pMyData;
+  int LocalNFishes; 
+  int LocalNSharks; 
  
- pMyData=(Type_Th_Wator_Args *) pTh_Args;
+  pMyData=(Type_Th_Wator_Args *) pTh_Args;
  
- while (true)
-       {
+  while (true) {
 		//------------------------------------------
 		//All threads synchronise before each iteration. 
 		//Main thread set before RowToProcess=0. 
-
 		pthread_barrier_wait(pMyData->pth_NextIter_Starts_barrier);
 		
 		#if (PRINT==1)
@@ -138,15 +137,15 @@ void *Th_IterateOcean(void * pTh_Args)
 		#endif
 		
 		//Main could set *pFinish=true after I check the while.
-		if (*(pMyData->pFinish))
-		   {
-			#if (PRINT==1)
+		if (*(pMyData->pFinish)) {
+		  #if (PRINT==1)
 			printf("Th %d finishes.\n",pMyData->ThreadId);
 			fflush(stdout);
 			#endif
-		    break; //Leave the while and finish.
-		   }
-		//Set my local counter of fishes and sharks to 0 in each iteration.
+		  break; //Leave the while and finish.
+		}
+		
+    //Set my local counter of fishes and sharks to 0 in each iteration.
 		LocalNFishes=0;
 		LocalNSharks=0;
 		
@@ -155,21 +154,23 @@ void *Th_IterateOcean(void * pTh_Args)
 		
 		//TODO Wait all threads ends. 
 		//RowToProcess>Rows. But some threads may still works
+	  pthread_barrier_wait(pMyData->pth_NextIter_Ends_barrier);
+    if(*(pMyData->pRowToProcess) > pMyData->Rows)
+      break;
 
-		
 		//------------------------------------------
 		//First thread set RowToProcess=1 before next loop.
 		//Next Srtarts in 1 adding 3
-		if (pMyData->ThreadId==0)
-		   {
-		    *(pMyData->pRowToProcess)=1;
-		    #if (PRINT==1)
-		    puts("----------------------");
-		    printf("Thread 0 set RowToProcess=1\n");
-		    #endif
-		   }
+		if (pMyData->ThreadId==0) {
+		  *(pMyData->pRowToProcess)=1;
+		  #if (PRINT==1)
+		  puts("----------------------");
+		  printf("Thread 0 set RowToProcess=1\n");
+		  #endif
+		}
 
 		//TODO Synchronise in loop barrier before starts next loop
+    pthread_barrier_wait(pMyData->pth_Loop_Starts_barrier);
 
 		#if (PRINT==1)
 		printf("Thread %d after 1 loop barrier. SimIter=%d, RowToProcess=%d\n", 
@@ -181,19 +182,20 @@ void *Th_IterateOcean(void * pTh_Args)
 
 		//TODO Wait all threads ends. 
 		//RowToProcess>Rows. But some threads may still works
-
+    pthread_barrier_wait(pMyData->pth_NextIter_Ends_barrier);
+    if(*(pMyData->pRowToProcess) > pMyData->Rows)
+      break;
 
 		//------------------------------------------ 
 		//Previous loop ends.
 		//Next Srtarts in 2 adding 3
-		if (pMyData->ThreadId==0)
-		   {
-		    *(pMyData->pRowToProcess)=2;
-		    #if (PRINT==1)
-		    puts("----------------------");
-		    printf("Thread 0 set RowToProcess=2\n");
-		    #endif
-		   }
+		if (pMyData->ThreadId==0) {
+		  *(pMyData->pRowToProcess)=2;
+		  #if (PRINT==1)
+		  puts("----------------------");
+		  printf("Thread 0 set RowToProcess=2\n");
+		  #endif
+		}
 
 		//synchronise in loop barrier
 		pthread_barrier_wait(pMyData->pth_Loop_Starts_barrier);
@@ -210,27 +212,27 @@ void *Th_IterateOcean(void * pTh_Args)
 		//Each thread updates shared counters of fishes and sharks
 		//using mutual exclusion
 		//TODO Lock to udate pNFishes and pNSharks
-
-		(*pMyData->pNFishes)+=LocalNFishes;
-        (*pMyData->pNSharks)+=LocalNSharks;
-        //TODO UnLock after updating pNFishes and pNSharks
-
+    pthread_mutex_lock(pMyData->pth_Counters_mutex);
+    (*pMyData->pNFishes)+=LocalNFishes;
+    (*pMyData->pNSharks)+=LocalNSharks;
+    
+    //TODO UnLock after updating pNFishes and pNSharks
+    pthread_mutex_unlock(pMyData->pth_Counters_mutex);
 
 		//TODO All threads and main synchronise after each iteration. 
 		//Thus all shared counters were updated.
 		//Thus, main thread could decide if continue to next iteration.
-
+    pthread_barrier_wait(pMyData->pth_Loop_Ends_barrier);
 		
 		#if (PRINT==1)
 		printf("Thread %d after NextIter Ends barrier. SimIter=%d, RowToProcess=%d\n", 
 		       pMyData->ThreadId,*(pMyData->pSimIter), *(pMyData->pRowToProcess));
 		fflush(stdout);
 		#endif
-	   }
-	   
-	   
- //Each thread finishes.
- pthread_exit((void *)&(pMyData->ThreadId));
+	}
+	
+  //Each thread finishes.
+  pthread_exit((void *)&(pMyData->ThreadId));
 }
 
 
@@ -454,16 +456,16 @@ if (!ExistArg("-ffmpeg",argc,argv))
  printf("NThreads=%d.\n", NThreads);
  #endif
 
-/* Initialize mutex objects*/
- pthread_mutex_init(&pth_RowToProcess_mutex, NULL);
- pthread_mutex_init(&pth_Counters_mutex,     NULL); //Update NFishes and NSharks
+  /* Initialize mutex objects*/
+  pthread_mutex_init(&pth_RowToProcess_mutex, NULL);
+  pthread_mutex_init(&pth_Counters_mutex,     NULL); //Update NFishes and NSharks
  
- /* Initialize barrier objects*/
- pthread_barrier_init(&pth_NextIter_Starts_barrier, NULL, NThreads+1);	//Threads + main
- pthread_barrier_init(&pth_NextIter_Ends_barrier,   NULL, NThreads+1);	//Threads + main
- //TODO: initiate other barriers
-
-
+  /* Initialize barrier objects*/
+  pthread_barrier_init(&pth_NextIter_Starts_barrier, NULL, NThreads+1);	//Threads + main
+  pthread_barrier_init(&pth_NextIter_Ends_barrier,   NULL, NThreads+1);	//Threads + main
+  //TODO: initiate other barriers
+  pthread_barrier_init(&pth_Loop_Starts_barrier, NULL, NThreads+1);
+  pthread_barrier_init(&pth_Loop_Ends_barrier, NULL, NThreads+1);
 
  //GetMem for the Ocean
  //Ocean is a pointer to a vector of pointers of sixe Rows (one *)
