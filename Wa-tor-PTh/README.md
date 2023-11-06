@@ -118,10 +118,14 @@ No hay perdida de memoria.
    Si
 
 4. **¿Se podrían usar menos número de mutexes o barriers? ¿Por qué?**
+   Si se podria, por ejemplo, si borramos todos los barriers loop en el Th_iterateOcean el programa seguiria ejecuantando igual.
+   En cambio, habría un mayor tiempo de ejecución.
+	![imagen](https://github.com/dpv927/multiprocesadores/assets/113710742/17e04637-528c-4af1-97b2-108f57d8e50b)
 
-5. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?** 
+6. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**  
+   No se nos ocurre otro método de paralelizar.
 
-6. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+8. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
    Hecho
 
 - - -
