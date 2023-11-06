@@ -99,6 +99,9 @@ $ valgrind -s ./Wa-tor-PTh -ni 102 -nt 4
 ```
 Si hay perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.
 
+![imagen](https://github.com/dpv927/multiprocesadores/assets/113710742/d501a974-653f-4188-aa9e-5153a9adf46d)
+
+No hay perdida de memoria.
 
 2. **Rellena la siguiente tabla:**
  * T.Sec es el tiempo de ejecución del algoritmo secencial.
@@ -106,18 +109,20 @@ Si hay perdida de memoria es que dos animales se han movido a la misma celda y n
 
 | Ejecución   | 201x201         | 300x300         |
 | ----------- | --------------- | --------------- |
-|T.Sec        |                 |                 |
-|T(1)         |                 |                 |
-|T(2)         |                 |                 |
-|T(4)         |                 |                 |
+|T.Sec        | 0.729s		| 1.614s	  |
+|T(1)         | 0.552s		| 1.114s	  |
+|T(2)         | 0.329s		| 0.859s          |
+|T(4)         | 0,231s		| 0.453s          |
 
-2. **¿Tiene ventajas su paralelización?** 
+2. **¿Tiene ventajas su paralelización?**
+   Si
 
-3. **¿Se podrían usar menos número de mutexes o barriers? ¿Porqué?**
+4. **¿Se podrían usar menos número de mutexes o barriers? ¿Por qué?**
 
-4. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?** 
+5. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?** 
 
-5. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+6. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+   Hecho
 
 - - -
 
