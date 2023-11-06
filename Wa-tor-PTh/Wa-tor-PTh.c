@@ -124,10 +124,10 @@ void *Th_IterateOcean(void * pTh_Args) {
   pMyData=(Type_Th_Wator_Args *) pTh_Args;
  
   while (true) {
-		//------------------------------------------
-		//All threads synchronise before each iteration. 
-		//Main thread set before RowToProcess=0. 
-    pthread_barrier_wait(pMyData->pth_NextIter_Starts_barrier);
+	//------------------------------------------
+	//All threads synchronise before each iteration. 
+	//Main thread set before RowToProcess=0. 
+    	pthread_barrier_wait(pMyData->pth_NextIter_Starts_barrier);
 
 
 		#if (PRINT==1)
@@ -182,7 +182,7 @@ void *Th_IterateOcean(void * pTh_Args) {
 
 		//TODO Wait all threads ends. 
 		//RowToProcess>Rows. But some threads may still works
-    pthread_barrier_wait(pMyData->pth_NextIter_Ends_barrier);
+    pthread_barrier_wait(pMyData->pth_Loop_Ends_barrier);
 
 		//------------------------------------------ 
 		//Previous loop ends.
@@ -220,7 +220,7 @@ void *Th_IterateOcean(void * pTh_Args) {
 		//TODO All threads and main synchronise after each iteration. 
 		//Thus all shared counters were updated.
 		//Thus, main thread could decide if continue to next iteration.
-    pthread_barrier_wait(pMyData->pth_Loop_Ends_barrier);
+    pthread_barrier_wait(pMyData->pth_NextIter_Ends_barrier);
 		
 		#if (PRINT==1)
 		printf("Thread %d after NextIter Ends barrier. SimIter=%d, RowToProcess=%d\n", 
@@ -462,8 +462,8 @@ if (!ExistArg("-ffmpeg",argc,argv))
   pthread_barrier_init(&pth_NextIter_Starts_barrier, NULL, NThreads+1);	//Threads + main
   pthread_barrier_init(&pth_NextIter_Ends_barrier,   NULL, NThreads+1);	//Threads + main
   //TODO: initiate other barriers
-  pthread_barrier_init(&pth_Loop_Starts_barrier, NULL, NThreads+1);
-  pthread_barrier_init(&pth_Loop_Ends_barrier, NULL, NThreads+1);
+  pthread_barrier_init(&pth_Loop_Starts_barrier, NULL, NThreads);
+  pthread_barrier_init(&pth_Loop_Ends_barrier, NULL, NThreads);
 
  //GetMem for the Ocean
  //Ocean is a pointer to a vector of pointers of sixe Rows (one *)
