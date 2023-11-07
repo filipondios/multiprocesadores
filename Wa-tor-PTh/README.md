@@ -97,7 +97,7 @@ $ valgrind -s ./Wa-tor-PTh -ni 102 -nt 4
 ```
 Si hay perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.
 
-![imagen](https://github.com/dpv927/multiprocesadores/assets/113710742/d501a974-653f-4188-aa9e-5153a9adf46d)
+<img src="resources/img1.png">
 
 No hay perdida de memoria.
 
@@ -107,24 +107,27 @@ No hay perdida de memoria.
 
 | Ejecución   | 201x201         | 300x300         |
 | ----------- | --------------- | --------------- |
-|T.Sec        | 0.729s		| 1.614s	  |
-|T(1)         | 0.552s		| 1.114s	  |
-|T(2)         | 0.329s		| 0.859s          |
-|T(4)         | 0,231s		| 0.453s          |
+|T.Sec        | 0.729s		    | 1.614s	      |
+|T(1)         | 0.552s		    | 1.114s	      |
+|T(2)         | 0.329s		    | 0.859s          |
+|T(4)         | 0,231s		    | 0.453s          |
 
-2. **¿Tiene ventajas su paralelización?**
-   Si
+3. **¿Tiene ventajas su paralelización?**
+Si, como se puede observar en la tabla anterior, incluso la version con un unico hilo de Wa-tor-PTh
+es mas rapida que la version secuencial Wa-tor.
 
 4. **¿Se podrían usar menos número de mutexes o barriers? ¿Por qué?**
-   Si se podria, por ejemplo, si borramos todos los barriers loop en el Th_iterateOcean el programa seguiria ejecuantando igual.
-   En cambio, habría un mayor tiempo de ejecución.
-	![imagen](https://github.com/dpv927/multiprocesadores/assets/113710742/17e04637-528c-4af1-97b2-108f57d8e50b)
+Si se podria, por ejemplo, podriamos eliminar los barriers "Loop_end", de forma que los hilos solo esperarian
+en los barriers "Loop_start". No obstante, los resultados no son mejores que los de la version original.
+
+<img src="resources/img2.png">
 
 6. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**  
-   No se nos ocurre otro método de paralelizar.
+Como se ha comentado en el apartado anterior, se nos ocurre una manera de eliminar mutexes o barriers 
+pero los resultados obtenidos no son optimos.
 
 8. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
-   Hecho
+Si, todos los archivos innecesarios han sido eliminados.
 
 - - -
 
