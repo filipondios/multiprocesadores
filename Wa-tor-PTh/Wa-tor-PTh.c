@@ -118,8 +118,8 @@ void *Th_IterateOcean(void * pTh_Args) {
 
   //Local variables are local to each thread.
   Type_Th_Wator_Args * pMyData;
-  int LocalNFishes; 
-  int LocalNSharks; 
+  int LocalNFishes;
+  int LocalNSharks;
  
   pMyData=(Type_Th_Wator_Args *) pTh_Args;
  
