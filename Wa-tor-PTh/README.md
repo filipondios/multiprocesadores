@@ -97,7 +97,7 @@ $ valgrind -s ./Wa-tor-PTh -ni 102 -nt 4
 ```
 Si hay perdida de memoria es que dos animales se han movido a la misma celda y no está bien el código. Muestra aquí el ERROR SUMMARY.
 
-<img src="resources/img1.png">
+<img src="./resources/img1.png">
 
 No hay perdida de memoria.
 
@@ -120,7 +120,7 @@ es mas rapida que la version secuencial Wa-tor.
 Si se podria, por ejemplo, podriamos eliminar los barriers "Loop_end", de forma que los hilos solo esperarian
 en los barriers "Loop_start". No obstante, los resultados no son mejores que los de la version original.
 
-<img src="resources/img2.png">
+<img src="./resources/img2.png">
 
 6. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**  
 Como se ha comentado en el apartado anterior, se nos ocurre una manera de eliminar mutexes o barriers 
