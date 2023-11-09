@@ -126,21 +126,31 @@ No hay perdida de memoria. En "still reacheable" sale distinto de 0 porque se ut
 | T(4)      | 2,490s  | 5,217s  |
 
 3. **¿Tiene ventajas su paralelización?**  
-   Si, como se puede observar en la tabla anterior, incluso la version con un unico hilo de Wa-tor-PTh
-   es mas rapida que la version secuencial Wa-tor.
+
+Si, como se puede observar en la tabla anterior, todas las ejecuciones con PThreads son mas
+rapidas que la versión secuencial, a excepcion de la ejecucion con 1 hilo. Esto puede suceder debido a 
+que en la versión secuencial no se crean hilos o inicializan estructuras de datos adicionales, ademas de 
+la gestion de los mutexes y los barriers que se deben ejecutar aunque solo lo este ejecutando un hilo.
 
 4. **¿Se podrían usar menos número de mutexes o barriers? ¿Por qué?**  
-   Si se podria, por ejemplo, podriamos eliminar los barriers "Loop_end", de forma que los hilos solo esperarian
-   en los barriers "Loop_start". No obstante, los resultados no son mejores que los de la version original.
+
+Si se podria, por ejemplo, podriamos eliminar los barriers "Loop_end", de forma que los hilos solo esperasen
+en los barriers "Loop_start". Esto es debido a que entre los barriers "Loop_end" y "Loop_start" (y no al reves)
+no hay codigo que necesite de una sincronizacion entre hilos (solo una comprobacion para ver si el hilo debe
+salir del bucle). 
+
+No obstante, los resultados no son mejores que los de la version original tal y como se puede observar en la siguiente imagen:
 
 <img src="./resources/img2.png">
 
 6. **¿Se te ocurre un método más eficiente de paralelizar Wa-tor?**  
-   Como se ha comentado en el apartado anterior, se nos ocurre una manera de eliminar mutexes o barriers
-   pero los resultados obtenidos no son optimos.
+
+Como se ha comentado en el apartado anterior, se nos ocurre una manera de eliminar mutexes o barriers
+pero los resultados obtenidos no son optimos.
 
 7. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**  
-   Si, todos los archivos innecesarios han sido eliminados.
+
+Si, todos los archivos innecesarios han sido eliminados.
 
 ---
 
