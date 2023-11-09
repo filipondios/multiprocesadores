@@ -118,12 +118,12 @@ No hay perdida de memoria. En "still reacheable" sale distinto de 0 porque se ut
 - T.Sec es el tiempo de ejecución del algoritmo secencial.
 - T(p) es el tiempo de ejecución del algoritmo paralelo con -nt p hebras.
 
-| Ejecución | 201x201 | 300x300 |
-| --------- | ------- | ------- |
-| T.Sec     | 0.729s  | 1.614s  |
-| T(1)      | 0.552s  | 1.114s  |
-| T(2)      | 0.329s  | 0.859s  |
-| T(4)      | 0,231s  | 0.453s  |
+| Ejecución | 201x201  | 300x300  |
+| --------- | -------  | -------  |
+| T.Sec     | 17.705s  | 42.238s  |
+| T(1)      | 20.877s  | 47.656s  |
+| T(2)      | 13.268s  | 26.730s  |
+| T(4)      | 11.316s  | 20.142s  |
 
 3. **¿Tiene ventajas su paralelización?**  
    Si, como se puede observar en la tabla anterior, incluso la version con un unico hilo de Wa-tor-PTh
