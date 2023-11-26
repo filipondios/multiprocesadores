@@ -35,4 +35,4 @@ argshand.o : argshand.c argshand.h
 
 #------------------------------------------------------------------------------
 clean:
-	@rm $(PROGRAM1) $(PROGRAM2) *.o *.~ *.bck 2>/dev/null || true
+	@rm $(PROGRAM1) $(PROGRAM2) imagen *.png *.o *.~ *.bck 2>/dev/null || true
