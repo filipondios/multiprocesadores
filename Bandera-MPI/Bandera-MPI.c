@@ -59,14 +59,13 @@ void Bandera_Function (char * ppRed, char * ppGreen,
          MyRank,StartPixel, EndPixel-1, Rows, Cols);
  #endif
         
- for (int k=StartPixel; k<EndPixel; k++)
-     {
+ for (int k=StartPixel; k<EndPixel; k++) {
       Row=k/Cols; //i is the current Row.
       //If Me!=0 I got memory for [0..EndPixel-StartPixel]
       ppRed[k-StartPixel]=(char)255;	//In tasks ppRed starts in 0.
       if (Row>Rows/4 && Row<Rows*3/4)
       ppGreen[k-StartPixel]=(char)255;	//In tasks ppGreen starts in 0.
-     }
+ }
 
 }
 
@@ -113,7 +112,7 @@ int main(int argc, char **argv)
 	 if (!ExistArg("-r",argc,argv))
 	    {
 	     fputs("Parameter -r is neccesary.\n",stderr);
-	     ParametersError();
+ 	     ParametersError();
 	    }
 	 else
 	    {
@@ -145,12 +144,12 @@ int main(int argc, char **argv)
     
 	GenFile= True;
      FileName = GetArg("-o",argc,argv);
-     
+          printf("Rows=%d, Cols=%d, Output=%s.\n", Rows, Cols, FileName);
     } 
 
      
      printf("Bandera-MPI Task %d: NTasks=%d.\n",MyRank,NTasks);
-     printf("Rows=%d, Cols=%d, Output=%s.\n", Rows, Cols, FileName);
+
      puts("--------------------------------------------------------");
      fflush(stdout);
      
