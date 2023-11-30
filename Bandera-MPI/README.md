@@ -150,13 +150,13 @@ $ time mpirun -np <p> ./Bandera-MPI -r <Rows> -c <Cols>
 | --------------- | ------------------ | ---------------- |
 | T.Sec           | 0.010s             | 1.235s           |
 | T(1)            | 0.464s             | 1.758s           |
-| Mem. Task=0(Gb) | 0.00209716         | 0.30198988       |
+| Mem. Task=0(Gb) | 0.00104858         | 0.15099494       |
 | --------------- | --------------     | ---------------  |
 | T(2)            | 0.371s             | 1.161s           |
-| Mem. Task>0(Gb) | 0.00104858         | 0.15099494       |
+| Mem. Task>0(Gb) | 0.00052429         | 0.07549747       |
 | --------------- | --------------     | ---------------  |
 | T(4)            | 0.390s             | 0.853s           |
-| Mem. Task>0(Gb) | 0.00052428         | 0.07549748       |
+| Mem. Task>0(Gb) | 0.00026214         | 0.03774874       |
 | --------------- | --------------     | ---------------  |
 | Sp(1)           | 0.021551724137931  | 1                |
 | Sp(2)           | 0.0269541778975741 | 1.06373815676141 |
@@ -178,8 +178,12 @@ Donde
 - Dimensiones del Problema: El tamaño del problema también puede influir. Para tamaños pequeños de entrada, el overhead de la paralelización puede superar los beneficios.
 
 6. **Explica como has calculado las cantidades de memoria consumidas por la tarea 0 y las otras tareas.**  
-   Se calculo sabiendo la division de pixeles que fue asignada a cada tarea y conociendo tambien que cada pixel es 1 byte.
-7. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**  
+   Se calculo sabiendo la division de pixeles que fue asignada a cada tarea y conociendo tambien que cada pixel es 1 byte en promedio,
+   ya que es imposible determinar que fragmento de la imagen se le asignara a cada tarea, y que cada pixel puede
+   tener 1 byte (si es rojo) o 2 bytes (si es amarillo), y que el color mas abundante con diferencia en la imagen es el rojo.
+   
+   
+8. **¿Has hecho un _make clean_ y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**  
    Hecho.
 
 ---
