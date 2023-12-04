@@ -344,9 +344,9 @@ int main(int argc, char **argv)
 				   MyRank, RowDone);
 #endif
 			// TODO: Send to task 0 calculated RGB
-			MPI_Send(&ppRed[0][0], 1, MPI_CHAR, 0, TagRowRed, MPI_COMM_WORLD);
-			MPI_Send(&ppGreen[0][0], 1, MPI_CHAR, 0, TagRowGreen, MPI_COMM_WORLD);
-			MPI_Send(&ppBlue[0][0], 1, MPI_CHAR, 0, TagRowBlue, MPI_COMM_WORLD);
+			MPI_Send(&ppRed[0][0], Cols, MPI_CHAR, 0, TagRowRed, MPI_COMM_WORLD);
+			MPI_Send(&ppGreen[0][0], Cols, MPI_CHAR, 0, TagRowGreen, MPI_COMM_WORLD);
+			MPI_Send(&ppBlue[0][0], Cols, MPI_CHAR, 0, TagRowBlue, MPI_COMM_WORLD);
 #if (PRINT >= 1)
 			printf("Taks %d send. RGB of RowDone %d to Task 0,\n",
 				   MyRank, RowDone);
