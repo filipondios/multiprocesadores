@@ -104,22 +104,26 @@ donde
 3. **Indica al número de filas que realiza cada hebra para una ejecución con p=4 de la tabla anterior.**
     - **¿Difieren los números de filas realizadas por cada hebra de una ejecución a otra? ¿Por qué?**
     - **¿Es el número de filas realizado por las hebras de una ejecución similar? ¿Por qué?**
+   
 | Tarea   	| -mi 1e4         | -mi 1e5         |
-| ----------- | --------------- | --------------- | 
-|Tarea 0        | 0 filas          | 0 flas         |
-|Tarea 1        | 341 filas          | 328 filas         |
-|Tarea 2        | 343 filas          | 373 filas         |
-|Tarea 3        | 340 filas          | 323 filas         |
+| ------------- | --------------- | --------------- | 
+| Tarea 0       | 0 filas         | 0 flas          |
+| Tarea 1       | 341 filas       | 328 filas       |
+| Tarea 2       | 343 filas       | 373 filas       |
+| Tarea 3       | 340 filas       | 323 filas       |
 
  Si difieren, porque la tarea 0 solo reparte el trabajo y lo unifica, mientras que las demás son las que hacen el trabajo. Estas filas difieren entre ellas debido a que hay mas iteraciones y el trabajo por pixel sera mas costoso en algunos casos. 
 
 4. **¿Porqué el tiempo paralelo con dos tareas (-np 2) es siempre peor que el secuencial?**
+   
    Debido a que la tarea principal reparte el trabajo, mientras que la otra tarea hace los calculos. Ademas, hay que sumar el coste de enviar y recibir los datos a procesar y procesados.
  
 6. **¿Tiene ventajas su paralelización?**
+   
 Si, solamente si el numero de tareas es mayor que dos, por la razon explicada en el apartado anterior.
 
 8. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+
 Si, los archivos innecesarios han sido borrados.
 
 ## Opción 2: La tarea maestra también realiza cómputo.
