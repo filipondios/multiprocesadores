@@ -65,10 +65,10 @@ $ ./Mandel-MPI -h
 
 | Ejecución   | -mi 1e4         | -mi 1e5           |
 | ----------- | --------------- | ----------------- |
-|T.Sec        |                 |                   |
-|T.CsPar      |                 |                   |
-|SpA(2)       |                 |                   |
-|SpA(4)       |                 |                   |
+|T.Sec        | 4,995s          | 50,226s           |
+|T.CsPar      | 4.98883s        | 50,2186s          |
+|SpA(2)       | 1,99753         | 1,999705          |
+|SpA(4)       | 3,98523         | 3,99823           |
 
 donde
  * T.Sec: El wall-clock time (tiempo total) del programa secuencial. Parte real del $time Mandel ... 
@@ -93,25 +93,34 @@ donde
 
 | Ejecución   | -mi 1e4         | -mi 1e5         |
 | ----------- | --------------- | --------------- | 
-|T.Sec        |                 |                 | 
-|T(1)         |                 |                 | 
-|T(2)         |                 |                 | 
-|T(4)         |                 |                 | 
-|Sp(1)        |                 |                 | 
-|Sp(2)        |                 |                 | 
-|Sp(4)        |                 |                 |
+|T.Sec        | 4,995s          | 49,914s         | 
+|T(1)         | -               | -               | 
+|T(2)         | 5,390s          | 50,535s         | 
+|T(4)         | 2,027s          | 17,568s         | 
+|Sp(1)        | -               | -               | 
+|Sp(2)        | 0,92671614100185| 0,98771148708815| 
+|Sp(4)        | 2,46423285643809| 2,84118852459016|
 
 3. **Indica al número de filas que realiza cada hebra para una ejecución con p=4 de la tabla anterior.**
-    - **¿Difieren los números de filas realizadas por cada hebra de una ejecución a otra? ¿Porqué?**
-    - **¿Es el número de filas realizado por las hebras de una ejecución similar? ¿Porqué?**
+    - **¿Difieren los números de filas realizadas por cada hebra de una ejecución a otra? ¿Por qué?**
+    - **¿Es el número de filas realizado por las hebras de una ejecución similar? ¿Por qué?**
+| Tarea   	| -mi 1e4         | -mi 1e5         |
+| ----------- | --------------- | --------------- | 
+|Tarea 0        | 0 filas          | 0 flas         |
+|Tarea 1        | 341 filas          | 328 filas         |
+|Tarea 2        | 343 filas          | 373 filas         |
+|Tarea 3        | 340 filas          | 323 filas         |
 
+ Si difieren, porque la tarea 0 solo reparte el trabajo y lo unifica, mientras que las demás son las que hacen el trabajo. Estas filas difieren entre ellas debido a que hay mas iteraciones y el trabajo por pixel sera mas costoso en algunos casos. 
 
 4. **¿Porqué el tiempo paralelo con dos tareas (-np 2) es siempre peor que el secuencial?**
+   Debido a que la tarea principal reparte el trabajo, mientras que la otra tarea hace los calculos. Ademas, hay que sumar el coste de enviar y recibir los datos a procesar y procesados.
  
-5. **¿Tiene ventajas su paralelización?**
+6. **¿Tiene ventajas su paralelización?**
+Si, solamente si el numero de tareas es mayor que dos, por la razon explicada en el apartado anterior.
 
-6. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
-
+8. **¿Has hecho un *make clean* y borrado todas los ficheros innecesarios (imágenes, etc) para la entrega antes de comprimir?**
+Si, los archivos innecesarios han sido borrados.
 
 ## Opción 2: La tarea maestra también realiza cómputo.
 * Se necesita cambiar más el código, pero se opta a la máxima nota.
