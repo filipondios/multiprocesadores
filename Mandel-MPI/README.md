@@ -1,23 +1,20 @@
 # Ejercicio: Mandelbrot MPI.
-
 ## A rellenar por el alumno/grupo
- * Nombre y apellidos alumno 1   : 
- * Nombre y apellidos alumno 2   : 
- * Nombre y apellidos alumno 3   : 
- * Mayoría en GTA1, GTA2 o GTA3  : 
- * Nombre de grupo de actividades: 
 
-## Arquitectura: 
- * Microprocesador:
- * Número de núcleos:
- * Cantidad de subprocesos por núcleo:
- * Tiene hyperthreading (SMT) activado en BIOS:
- * HDD/SDD: 
- * RAM:
- * Se usa máquina virtual:
-    - Número de cores:
-    - RAM: 
-    - Capacidad HDD: 
+- Nombre y apellidos alumno 1 : Daniel Pérez Valverde
+- Nombre y apellidos alumno 2 : Anass El Jabiry Kaddir
+- Mayoría en GTA1, GTA2 o GTA3 : GT3 y GT1 respectivamente
+- Nombre de grupo de actividades: Grupo 58
+
+## Arquitectura:
+
+- Microprocesador: AMD Ryzen 7 5800X 8-Core Processor
+- Número de núcleos: 8
+- Cantidad de subprocesos por nucleo: 2
+- Tiene hyperthreading (SMT) activado en BIOS: No
+- HDD/SDD: 931Gb
+- RAM: 15Gb
+- Se usa máquina virtual: No
 
 ## Instrucciones:
 
